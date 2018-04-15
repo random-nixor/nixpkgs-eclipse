@@ -1,12 +1,18 @@
-
+#
+# Linux C/C++ development support
+#
 { instance, fetchsite }:
 
 let
-      home-page = https://www.eclipse.org/linuxtools ;
+    meta = {
+        homepage = https://www.eclipse.org/linuxtools ;
+        description = "Linux Tools project aims to bring a full-featured C and C++ IDE to Linux developers" ;
+    };
 in
 rec {
 
   tools-linux-621 = instance.repoDir {
+    inherit meta;
     name = "tools-linux-621";
     src = fetchsite {
       url = "http://download.eclipse.org/linuxtools/update-6.2.1" ;

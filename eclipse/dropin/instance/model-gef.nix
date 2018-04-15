@@ -1,13 +1,19 @@
-
+#
+# GEF (Graphical Editing Framework)
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/gef ;
     drop-site = http://download.eclipse.org/tools/gef/downloads/drops ;
+    meta = {
+        homepage = https://www.eclipse.org/gef ;
+        description = "GEF (Graphical Editing Framework)";
+    };
 in 
 rec {
 
   model-gef-502 = instance.repoDir {
+    inherit meta;
     name = "model-gef-502";
     src = fetchzip {
       stripRoot = false;

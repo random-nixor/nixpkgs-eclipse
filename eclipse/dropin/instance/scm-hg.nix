@@ -1,12 +1,18 @@
-
+#
+# Mercurial team provider
+#
 { instance, fetchzip, fetchsite }:
 
 let
-    home-page = https://bitbucket.org/mercurialeclipse/main/wiki/Home ;
+    meta = {
+        homepage = https://bitbucket.org/mercurialeclipse/main/wiki/Home ;
+        description = "MercurialEclipse is a plugin for the Mercurial version control system" ;
+    };
 in 
 rec {
 
   scm-hg-250 = instance.repoDir {
+    inherit meta;
     name = "scm-hg-250";
     src = fetchsite {
       url = "https://bitbucket.org/mercurialeclipse/update-site/raw/default" ;

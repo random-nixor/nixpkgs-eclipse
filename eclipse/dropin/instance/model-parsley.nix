@@ -1,13 +1,19 @@
-
+#
+# Parsley modeling components 
+#
 { instance, fetchzip, fetchsite }:
 
 let 
-    home-page = http://www.eclipse.org/emf-parsley ;
     drop-site = http://download.eclipse.org/emf-parsley/updates;
+    meta = {
+        homepage = http://www.eclipse.org/emf-parsley ;
+        description = "EMF Parsley is an Eclipse project that provides a set of reusable UI components based on EMF" ;
+    };
 in 
 rec {
 
   model-parsley-123 = instance.repoDir {
+    inherit meta;
     name = "model-parsley-123";
     src = fetchsite {
       url = "${drop-site}/1.2/1.2.3.v20180220-1246" ;

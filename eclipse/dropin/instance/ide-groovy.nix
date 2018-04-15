@@ -1,16 +1,18 @@
 #
 # Groovy development
 #
-
-
 { instance, fetchsite }:
 
 let 
-    home-page = https://github.com/groovy/groovy-eclipse ;
+    meta = {
+        homepage = https://github.com/groovy/groovy-eclipse ;
+        description = "Eclipse Groovy Development Tools";
+    };
 in 
 rec {
 
   ide-groovy-292 = instance.repoDir {
+    inherit meta;
     name = "ide-groovy-292";
     src = fetchsite {
       url = "http://dist.springsource.org/release/GRECLIPSE/e4.7" ;

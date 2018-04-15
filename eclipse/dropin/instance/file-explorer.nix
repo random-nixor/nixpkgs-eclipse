@@ -1,7 +1,6 @@
 #
 # File manager integrations
 #
-
 { instance, fetchsite }:
 
 let 

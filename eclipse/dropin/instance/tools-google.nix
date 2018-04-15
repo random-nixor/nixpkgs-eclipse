@@ -7,6 +7,7 @@
 #rec {
 #
 #  tools-log-slf4j = instance.repoJars {
+#    inherit meta;
 #    name = "tools-log-slf4j";
 #    features = [
 #    ];

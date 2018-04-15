@@ -1,9 +1,10 @@
-
+#
+# Unit testing tools.
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://github.com/MoreUnit/MoreUnit-Eclipse ;
-    drop-site = https://github.com/MoreUnit/MoreUnit-Eclipse/releases/download ;
+    moreunit-drop-site = https://github.com/MoreUnit/MoreUnit-Eclipse/releases/download ;
 in 
 rec {
 
@@ -11,8 +12,12 @@ rec {
     name = "tools-moreunit-311";
     src = fetchzip {
       stripRoot = true;
-      url = "${drop-site}/v3.1.1/org.moreunit-3.1.1.zip" ;
+      url = "${moreunit-drop-site}/v3.1.1/org.moreunit-3.1.1.zip" ;
       sha256 = "13aq81jnligkvm548irpia4ck2ir1wmq50vaql70nmzrbkskp28m";
+    };
+    meta = {
+        homepage = https://github.com/MoreUnit/MoreUnit-Eclipse ;
+        description = "MoreUnit is an Eclipse plugin that should assist you in writing more unit tests" ;
     };
   };
 

@@ -1,14 +1,19 @@
-
+#
+# Eclipse Checkstyle Plugin
+#
 { instance, fetchzip }:
 
 let
-    home-page = http://checkstyle.org/eclipse-cs ;
     drop-site = https://dl.bintray.com/eclipse-cs/eclipse-cs/update-site-archive ;
-
+    meta = {
+        homepage = http://checkstyle.org/eclipse-cs ;
+        description = "Eclipse Checkstyle Plugin (aka eclipse-cs) integrates the static source code analyzer Checkstyle  into the Eclipse IDE" ;
+    };
 in
 rec {
 
   style-java-880 = instance.repoDir {
+    inherit meta;
     name = "style-java-880";
     src = fetchzip {
       stripRoot = false;

@@ -1,17 +1,21 @@
 #
-# Java DSL development
+# Java DSL development.
 #
 
 { instance, fetchzip, fetchsite }:
 
 let
-    home-page = https://www.eclipse.org/Xtext ;
     drop-site = http://download.eclipse.org/modeling/tmf/xtext/downloads/drops ; 
+    meta = {
+        homepage = https://www.eclipse.org/Xtext ;
+        description = "Xtext is a framework for development of programming languages and domain-specific languages";
+    };
 in 
 rec {
 
-  # need emf gmf
+  # FIXME need emf gmf
   ide-xtext-2130 = instance.repoDir {
+    inherit meta;
     name = "ide-xtext-2130";
     src = fetchzip {
       stripRoot = false;

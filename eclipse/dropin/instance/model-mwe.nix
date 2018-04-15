@@ -1,14 +1,19 @@
-
+#
+# Modeling Workflow Engine 
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/modeling/emft ;
     drop-site = http://download.eclipse.org/modeling/emft/mwe/downloads/drops ;
-    
+    meta = {
+        homepage = https://www.eclipse.org/modeling/emft ;
+        description = "Modeling Workflow Engine (MWE) is an extensible framework for the integration and orchestration of model processing workflows" ;
+    };
 in 
 rec {
 
   model-mwe-291 = instance.repoDir {
+    inherit meta;
     name = "model-mwe-291";
     src = fetchzip {
       stripRoot = false;

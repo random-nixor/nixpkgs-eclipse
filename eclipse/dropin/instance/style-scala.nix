@@ -1,12 +1,18 @@
-
+#
+# Scalastyle - Scala style checker
+#
 { instance, fetchsite }:
 
 let
-    homepage = http://www.scalastyle.org ;
+    meta = {
+        homepage = http://www.scalastyle.org ;
+        description = "Scalastyle examines your Scala code and indicates potential problems with it" ;
+    };
 in
 rec {
 
   style-scala-100 = instance.repoDir {
+    inherit meta;
     name = "style-scala-100";
     src = fetchsite {
       url = "http://www.scalastyle.org/downloads/luna-1.0.0/site" ;

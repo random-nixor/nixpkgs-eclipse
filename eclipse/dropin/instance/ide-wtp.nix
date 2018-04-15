@@ -1,17 +1,20 @@
 #
 # Editor suite for: JavaScript + Server side Java 
 #
-
 { instance, fetchzip, fetchsite }:
 
 let
-    home-page = https://www.eclipse.org/webtools ;
     drop-site = http://download.eclipse.org/webtools/downloads/drops ; 
+    meta = {
+        homepage = https://www.eclipse.org/webtools ;
+        description = "Eclipse Web Tools Platform (WTP) for developing Web and Java EE applications";
+    };
 in 
 rec {
 
-  # need emf gmf
+  # FIXME need emf gmf
   ide-wtp-393 = instance.repoDir {
+    inherit meta;
     name = "ide-wtp-393";
     src = fetchzip {
       stripRoot = false;

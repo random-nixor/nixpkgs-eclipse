@@ -1,13 +1,19 @@
-
+#
+# M2T template language 
+#
 { instance, fetchzip }:
 
 let 
-    home-page = http://www.eclipse.org/modeling/m2t/?project=xpand ;
     drop-site = http://download.eclipse.org/modeling/m2t/xpand/downloads/drops ;
+    meta = {
+        homepage = http://www.eclipse.org/modeling/m2t/?project=xpand ;
+        description = "Model To Text (M2T) statically-typed template language" ;
+    };
 in 
 rec {
 
   model-xpand-220 = instance.repoDir {
+    inherit meta;
     name = "model-xpand-220";
     src = fetchzip {
       stripRoot = false;

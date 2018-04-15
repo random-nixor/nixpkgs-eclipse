@@ -1,7 +1,6 @@
 #
 # Editors for JSON
 #
-
 { instance, fetchsite }:
 
 let 

@@ -1,7 +1,6 @@
 #
 # Eclipse OSGI platform
 #
-
 { instance, fetchzip }:
 
 let 

@@ -1,14 +1,20 @@
-
+#
+# Memory Analyzer (MAT)
+#
 { instance, fetchzip, dropin }:
 
 with dropin;
 
 let 
-    home-page = https://www.eclipse.org/mat ;
+    meta = {
+        homepage = https://www.eclipse.org/mat ;
+        description = "Eclipse Memory Analyzer is a fast and feature-rich Java heap analyzer" ;
+    };
 in 
 rec {
 
   perf-mat-170 = instance.repoDir {
+    inherit meta;
     name = "perf-mat-170";
     src = fetchzip {
       stripRoot = false;
