@@ -1,0 +1,11 @@
+
+# eclipse meta data
+
+.project
+.settings/
+.classpath
+
+# build resources
+
+*.log
+*.tar.gz
