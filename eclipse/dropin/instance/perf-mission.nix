@@ -1,7 +1,6 @@
 #
-# Java Mission Control (Oracle JMC)
+# Java Mission Control (JMC) for Java HotSpot VM
 #
-
 { instance, fetchzip, fetchsite }:
 
 let 

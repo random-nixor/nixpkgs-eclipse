@@ -1,15 +1,18 @@
 #
 # TODO
 #
-
 { instance, fetchzip, fetchsite }:
 
 let 
-    home-page = https://github.com/JPMoresmau/eclipsefp ;
+    meta = {
+        homepage = https://github.com/JPMoresmau/eclipsefp ;
+        description = "EclipseFP is a set of plugins for Eclipse that add support for the Haskell programming language";
+    };
 in 
 rec {
 
   ide-haskell-264 = instance.repoDir {
+    inherit meta;
     name = "ide-haskell-264";
     src = fetchsite {
       url = "http://eclipsefp.sourceforge.net/updates" ;

@@ -1,7 +1,6 @@
 #
 # Editors for YAML
 #
-
 { instance, fetchsite }:
 
 let 

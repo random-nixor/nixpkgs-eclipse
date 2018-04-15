@@ -1,12 +1,18 @@
-
+#
+# Bndtools for OSGi 
+#
 { instance, fetchsite }:
 
 let 
-    homepage = http://bndtools.org ;
+    meta = {
+        homepage = http://bndtools.org ;
+        description = "The easy, powerful and productive way to develop with OSGi" ;
+    };
 in 
 rec {
 
   tools-bnd-350 = instance.repoDir {
+    inherit meta;
     name = "tools-bnd-350";
     src = fetchsite {
       url = "https://dl.bintray.com/bndtools/bndtools/3.5.0" ;

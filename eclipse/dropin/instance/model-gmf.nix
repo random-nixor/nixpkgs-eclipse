@@ -1,13 +1,19 @@
-
+#
+# Graphical Modeling Framework (GMF)
+#
 { instance, fetchzip }:
 
 let 
-    home-page = http://www.eclipse.org/modeling/gmp ;
     drop-site = http://download.eclipse.org/modeling/gmp/gmf-runtime/downloads/drops ;
+    meta = {
+        homepage = http://www.eclipse.org/modeling/gmp ;
+        description = "Graphical Modeling Framework (GMF)";
+    };
 in 
 rec {
 
   model-gmf-1120 = instance.repoDir {
+    inherit meta;
     name = "model-gmf-1120";
     src = fetchzip {
       stripRoot = true;

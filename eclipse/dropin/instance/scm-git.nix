@@ -1,13 +1,19 @@
-
+#
+# EGit team provider
+#
 { instance, fetchzip }:
 
 let 
-    home-page = http://www.eclipse.org/egit ;
     drop-site = http://download.eclipse.org/egit;
+    meta = {
+        homepage = http://www.eclipse.org/egit ;
+        description = "EGit is an Eclipse Team provider for the Git version control system." ;
+    };
 in 
 rec {
 
   scm-git-4110 = instance.repoDir {
+    inherit meta;
     name = "scm-git-4110";
     src = fetchzip {
       stripRoot = false;

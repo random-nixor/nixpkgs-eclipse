@@ -1,16 +1,19 @@
 #
 # Editor suite for: Ruby Tcl Python JavaScript Shell
 #
-
 { instance, fetchzip, dropin }:
 
 with dropin;
 
 let 
-    home-page = https://projects.eclipse.org/projects/technology.dltk ;
     drop-site = http://download.eclipse.org/technology/dltk/downloads/drops ;
     drop-581 = "${drop-site}/R5.8/R-5.8.1-201708260401" ;
-    drop-582 = "${drop-site}/R5.8/R-5.8.2.201709190955" ;
+    drop-582 = "${drop-site}/R5.8/R-5.8.2.201709190955" ; # FIXME broken
+    meta = {
+        homepage = https://projects.eclipse.org/projects/technology.dltk ;
+        description = "Eclipse Dynamic Languages Toolkit: Ruby Tcl Python JavaScript Shell";
+    };
+    
 in
 rec {
 
@@ -22,6 +25,7 @@ rec {
 
     # all
     ide-dltk-581 = instance.repoDir {
+        inherit meta;
         name = "ide-dltk-581";
         src = fetchzip {
             stripRoot = false;
@@ -32,6 +36,7 @@ rec {
     };
 
     ide-dltk-sdk-581 = instance.repoDir {
+        inherit meta;
         name = "ide-dltk-sdk-581";
         src = fetchzip {
             stripRoot = false;
@@ -42,6 +47,7 @@ rec {
 
     # w/o any editor
     ide-dltk-core-581 = instance.repoDir {
+        inherit meta;
         name = "ide-dltk-core-581";
         src = fetchzip {
             stripRoot = false;
@@ -52,6 +58,7 @@ rec {
 
     # only shell editor
     ide-dltk-sh-581 = instance.repoDir {
+        inherit meta;
         name = "ide-dltk-sh-581";
         src = fetchzip {
             stripRoot = false;
@@ -64,6 +71,7 @@ rec {
     ### 582
     
 #    ide-dltk-582 = instance.repoDir {
+#        inherit meta;
 #        name = "ide-dltk-582";
 #        src = fetchzip {
 #            stripRoot = false;

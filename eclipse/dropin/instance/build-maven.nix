@@ -1,7 +1,6 @@
 #
 # Maven build integration
 #
-
 { instance, fetchurl, fetchsite, dropin }:
 
 with dropin;

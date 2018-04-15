@@ -1,13 +1,19 @@
-
+#
+# Subversive team provider 
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/subversive ;
     drop-site = http://download.eclipse.org/technology/subversive;
+    meta = {
+        homepage = https://www.eclipse.org/subversive ;
+        description = "Subversion (SVN) version control system for the Eclipse platform" ;
+    };
 in 
 rec {
 
   scm-svn-405 = instance.repoDir {
+    inherit meta;
     name = "scm-svn-405";
     src = fetchzip {
       stripRoot = false;

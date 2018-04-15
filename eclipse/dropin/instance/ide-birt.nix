@@ -1,13 +1,19 @@
-
+#
+# Eclipse reporting IDE 
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/birt ;
     drop-site = http://download.eclipse.org/birt/downloads/drops;
+    meta = {
+        homepage = https://www.eclipse.org/birt ;
+        description = "BIRT technology platform to create data visualizations and reports";
+    };
 in 
 rec {
 
   ide-birt-470 = instance.repoDir {
+    inherit meta;
     name = "ide-birt-470";
     src = fetchzip {
       stripRoot = false;

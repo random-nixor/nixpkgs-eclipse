@@ -1,17 +1,19 @@
 #
 # Eclipse plugin development
 #
-
 { instance, fetchzip }:
 
 let
-    home-page = https://www.eclipse.org/pde ;
     drop-473a = http://download.eclipse.org/eclipse/downloads/drops4/R-4.7.3a-201803300640 ;
-    
+    meta = {
+        homepage = https://www.eclipse.org/pde ;
+        description = "Plug-in Development Environment (PDE) provides tools to develop Eclipse plug-ins";
+    };
 in
 rec {
 
   ide-pde-473a = instance.repoDir {
+    inherit meta;
     name = "ide-pde-473a";
     src = fetchzip {
       stripRoot = false;
@@ -21,6 +23,7 @@ rec {
   };
 
   ide-pde-src-473a = instance.repoDir {
+    inherit meta;
     name = "ide-pde-src-473a";
     src = fetchzip {
       stripRoot = false;

@@ -1,21 +1,24 @@
 #
 # Eclipse Modeling Framework / Core 
 #
+{ instance, fetchzip }:
 
 #
 # FIXME split 
 # http://download.eclipse.org/modeling/emf/emf/downloads/drops/2.14.0/S201711020636/
 #
 
-{ instance, fetchzip }:
-
 let 
-    home-page = https://www.eclipse.org/modeling/emf ;
     drop-site = http://download.eclipse.org/modeling/emf/emf/downloads/drops ;
+    meta = {
+        homepage = https://www.eclipse.org/modeling/emf ;
+        description = "Eclipse Modeling Framework (EMF) core";
+    };
 in 
 rec {
 
   model-emf-2140 = instance.repoDir {
+    inherit meta;
     name = "model-emf-2140";
     src = fetchzip {
       stripRoot = false;

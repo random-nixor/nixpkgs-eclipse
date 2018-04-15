@@ -1,15 +1,18 @@
 #
 # R-project development
 #
-
 { instance, fetchzip, fetchsite }:
 
 let 
-    home-page = http://www.walware.de/goto/statet ;
+    meta = {
+        homepage = http://www.walware.de/goto/statet ;
+        description = "StatET is an Eclipse based IDE for R";
+    };
 in 
 rec {
 
   ide-statet-362 = instance.repoDir {
+    inherit meta;
     name = "ide-statet-362";
     src = fetchzip {
       stripRoot = false;

@@ -32,5 +32,5 @@ Notes:
 
 [wiki_unfree]: https://nixos.wiki/wiki/FAQ/How_can_I_install_a_proprietary_or_unfree_package%3F
 
-[splash_icon]: .build/splash.png
+[splash_icon]: .gitrepo/splash.png
 [splash_link]: eclipse

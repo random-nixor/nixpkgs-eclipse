@@ -1,7 +1,6 @@
 #
 # Editors for google protobuf
 #
-
 { instance, fetchsite, dropin }:
 
 with dropin;

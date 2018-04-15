@@ -1,17 +1,19 @@
 #
 # PHP development
 #
-
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/pdt ;
     drop-site = http://download.eclipse.org/tools/pdt/downloads;
-    
+    meta = {
+        homepage = https://www.eclipse.org/pdt ;
+        description = "PHP Development Tools (PDT)";
+    };
 in 
 rec {
 
   ide-php-530 = instance.repoDir {
+    inherit meta;
     name = "ide-php-530";
     src = fetchzip {
       stripRoot = false;

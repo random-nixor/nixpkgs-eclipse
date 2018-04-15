@@ -1,16 +1,19 @@
 #
 # C/C++ development
 #
-
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/cdt ;
     drop-943 = http://download.eclipse.org/tools/cdt/releases/9.4/cdt-9.4.3;
+    meta = {
+        homepage = https://www.eclipse.org/cdt ;
+        description = "The CDT Project provides a fully functional C and C++ Integrated Development Environment";
+    };
 in 
 rec {
 
   ide-cdt-943 = instance.repoDir {
+    inherit meta;
     name = "ide-cdt-943";
     src = fetchzip {
       stripRoot = false;

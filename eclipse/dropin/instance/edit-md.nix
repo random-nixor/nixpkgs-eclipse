@@ -1,7 +1,6 @@
 #
 # Editors for markdown
 #
-
 { instance, fetchsite }:
 
 let 

@@ -1,13 +1,19 @@
-
+#
+# Papyrus Modeling environment
+#
 { instance, fetchzip }:
 
 let 
-    home-page = https://www.eclipse.org/papyrus ;
     drop-site = http://download.eclipse.org/modeling/mdt/papyrus/downloads/drops ;
+    meta = {
+        homepage = https://www.eclipse.org/papyrus ;
+        description = "Papyrus Modeling environment for UML, SysML, more" ;
+    };
 in 
 rec {
 
   model-papyrus-330 = instance.repoDir {
+    inherit meta;
     name = "model-papyrus-330";
     src = fetchzip {
       stripRoot = false;
