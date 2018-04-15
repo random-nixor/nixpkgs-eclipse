@@ -4,7 +4,7 @@
 # build functions
 #
 
-set -e
+set -e -u
 
 nix_install() {
     local path=$1
@@ -49,6 +49,23 @@ proxy_setup() {
     else
        echo "# no https_proxy"
     fi
+}
+
+build_runtime() {
+    for name in "${runtime_list[@]}" ; do
+        nix_install "eclipse.runtime.$name"
+    done
+}
+
+build_product() {
+    for name in "${product_list[@]}" ; do
+        nix_install "eclipse.product.$name"
+    done
+}
+
+build_list() {
+    build_runtime
+    build_product
 }
 
 base=$(cd ${BASH_SOURCE%/*} && pwd)

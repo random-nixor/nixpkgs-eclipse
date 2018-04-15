@@ -4,7 +4,7 @@
 # build popular configurations
 #
 
-set -e
+set -e -u
 
 source ${BASH_SOURCE%/*}/any.sh
 
@@ -31,21 +31,4 @@ product_list=(
     total-473a
 )
 
-build_rutimime() {
-    for name in "${runtime_list[@]}" ; do
-        nix_install "eclipse.runtime.$name"
-    done
-}
-
-build_product() {
-    for name in "${product_list[@]}" ; do
-        nix_install "eclipse.product.$name"
-    done
-}
-
-build_all() {
-    build_rutimime
-    build_product
-}
-
-time build_all
+time build_list
