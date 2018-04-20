@@ -1,7 +1,7 @@
-#	Eclipse SDK
-#	The Eclipse SDK includes the Eclipse Platform, Java development tools, 
-#	and Plug-in Development Environment, including source and both user and programmer documentation. 
-#	If you aren't sure which download you want... then you probably want this one. 
+#    Eclipse SDK
+#    The Eclipse SDK includes the Eclipse Platform, Java development tools, 
+#    and Plug-in Development Environment, including source and both user and programmer documentation. 
+#    If you aren't sure which download you want... then you probably want this one. 
 
 { instance }:
 

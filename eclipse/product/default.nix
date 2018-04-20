@@ -7,10 +7,9 @@ let
   include = pkgs.lib.callPackageWith ( pkgs // context );
   context = {
     inherit eclipse;
-	instance = include ./instance.nix {} ;
+    instance = include ./instance.nix {} ;
   };
-in rec
-{}
+in rec {}
 
 // include ./instance/base.nix {}
 // include ./instance/core.nix {}
@@ -18,6 +17,7 @@ in rec
 // include ./instance/cpp.nix {}
 
 // include ./instance/java.nix {}
+// include ./instance/java-dsl.nix {}
 // include ./instance/java-main.nix {}
 
 // include ./instance/scala.nix {}

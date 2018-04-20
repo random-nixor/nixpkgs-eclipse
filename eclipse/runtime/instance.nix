@@ -2,8 +2,9 @@
 # Produce runtime from external repository
 #
 { stdenvNoCC
+, pkgs
 , eclipse
-, fetchurl
+, buildEnv
 , makeWrapper
 }:
 
@@ -14,8 +15,9 @@
 }:
 
 with builtins;
+
 with eclipse.option;
-with eclipse.wrapper;
+with eclipse.launcher;
 
 let
 
@@ -23,47 +25,58 @@ let
 
     package = if hasAttr system packages 
         then packages."${system}"
-        else abort "Missing package for system: ${system}";
+        else abort "Missing package for system: ${system}"
+    ;
+    
+    packageName = baseNameOf package.url;
         
+    runtimeBase = optionRuntimeFolder name;
     runtimeName = optionRuntimePackage name;
-        
-    src = fetchurl {
-        inherit (package) url sha1 sha256 sha512;
+
+    runtimeInstall = makePackageInstall {
+        package = package;
+        name = packageName;
+    };
+
+    runtimeRooter = makeFolderRooter {
+        sors = runtimeInstall;
+        name = runtimeName;
+        base = runtimeBase;
+        path = "eclipse";
+    };
+
+    runtimeEclipseIni = makeEclipseIni {
+        sors = runtimeRooter;
+        name = runtimeName;
+        base = runtimeBase;
+    };
+
+	runtimeWrapper = makeLauncherWrapper {
+	   sors = runtimeRooter;
+       name = runtimeName;
+       base = runtimeBase;
+       eclipini = runtimeEclipseIni;
+	};
+
+    runtimeResult = buildEnv {
+        name = "result-${runtimeName}";
+        paths = [ runtimeRooter runtimeEclipseIni runtimeWrapper ];
+        passthru = {
+            install = runtimeInstall;
+        };
     };
     
 in
 
-stdenvNoCC.mkDerivation {
+rec {
 
-  inherit src meta;
-
-  base = optionRuntimeFolder name; # FIXME name space
-
-  name = runtimeName;
-  
-  link = "bin/${runtimeName}";
-  
-  buildInputs = [ makeWrapper ];
-
-  phases = [ "unpackPhase" "buildPhase" ];
-
-  buildPhase = ''
-  
-    baseDir="$out/$base"
-    executable="$baseDir/${optionRuntimeExe}"
-    libraryCairo=$baseDir/${optionRuntimeLibCairo}
-    binaryLink="$out/$link"
-  
-    mkdir -p $baseDir
-    tar xfz $src -C $baseDir
+    inherit meta;
     
-    interpreter=$(echo ${stdenvNoCC.glibc.out}/lib/ld-linux*.so.2)
-    patchelf --set-interpreter $interpreter $executable
+    base = runtimeBase;
+    name = runtimeName;
     
-    [ -f $libraryCairo ] && patchelf --set-rpath ${wrapperCairoLibs} $libraryCairo
-
-    ${wrapperCommand { name=runtimeName; exec="$executable"; link="$binaryLink"; }}
+    exec = runtimeWrapper.link;
     
-  '';
-
+    result = runtimeResult;
+    
 }

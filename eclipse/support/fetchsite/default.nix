@@ -2,9 +2,14 @@
 # Mirror eclipse update site.
 # https://wiki.eclipse.org/Equinox_p2_Repository_Mirroring
 #
+{ stdenvNoCC
+, eclipse
+, runtime ? eclipse.runtime.base-473a
+}:
 
-{ stdenvNoCC, eclipse }:
+# TODO https_proxy support
 
+# fetchsite function
 { url
 , name ? "source"
 , meta ? {}
@@ -35,11 +40,7 @@
 
 let
 
-  runtime = eclipse.runtime.base-473a;
-
-#  runtimeBase = "${runtime.out}/${runtime.base}";
-#  executable = "${runtimeBase}/${optionRuntimeExe}";
-  executable = "${runtime.out}/${runtime.link}" ;
+  executable = runtime.exec ;
 
   application = "org.eclipse.equinox.p2.artifact.repository.mirrorApplication";
   configuration = "$TMPDIR/eclipse/configuration";

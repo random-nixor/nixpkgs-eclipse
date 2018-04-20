@@ -24,16 +24,16 @@ rec {
 #      <import feature="org.eclipse.xtext.runtime" version="2.9.0" match="compatible"/>
 #   </requires>
 
-#	com.google.inject_3.0.0.v201312141243.jar
-#	org.apache.commons.cli_1.2.0.v201404270220.jar
-#	org.eclipse.emf.mwe.core_1.3.21.201705291011.jar
-#	org.eclipse.emf.mwe.utils_1.3.21.201705291011.jar
-#	org.eclipse.emf.mwe2.lib_2.9.1.201705291011.jar
-#	org.eclipse.emf.mwe2.runtime_2.9.1.201705291011.jar
-#	org.eclipse.xpand_2.2.0.v201605260315.jar
-#	org.eclipse.xtend.typesystem.emf_2.2.0.v201605260315.jar
-#	org.eclipse.xtend_2.2.0.v201605260315.jar
-#	org.objectweb.asm_5.2.0.v20170126-0011.jar
+#    com.google.inject_3.0.0.v201312141243.jar
+#    org.apache.commons.cli_1.2.0.v201404270220.jar
+#    org.eclipse.emf.mwe.core_1.3.21.201705291011.jar
+#    org.eclipse.emf.mwe.utils_1.3.21.201705291011.jar
+#    org.eclipse.emf.mwe2.lib_2.9.1.201705291011.jar
+#    org.eclipse.emf.mwe2.runtime_2.9.1.201705291011.jar
+#    org.eclipse.xpand_2.2.0.v201605260315.jar
+#    org.eclipse.xtend.typesystem.emf_2.2.0.v201605260315.jar
+#    org.eclipse.xtend_2.2.0.v201605260315.jar
+#    org.objectweb.asm_5.2.0.v20170126-0011.jar
 
   edit-proto-google-232 = instance.repoDir {
     name = "edit-proto-google-232";

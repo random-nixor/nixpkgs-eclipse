@@ -21,6 +21,8 @@ cd $root
 
 #nix-env -f default.nix -i -A eclipse.dropin.base-equinox-473a
 
+nix-env -f default.nix -i -A eclipse.dropin.build-maven-190
+
 # jars list
 #nix-env -f default.nix -i -A eclipse.dropin.build-maven-log-172
 
@@ -30,7 +32,9 @@ cd $root
 #nix-env -f default.nix -i -A eclipse.dropin.ide-pydev-632
 
 # non-ssl fetchsite
-nix-env -f default.nix -i -A eclipse.dropin.build-gradle-221
+#nix-env -f default.nix -i -A eclipse.dropin.build-gradle-221
+
+
 
 # dependency report
 # nix-store -q --tree store path or .drv file

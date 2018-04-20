@@ -48,7 +48,7 @@ rec {
         ide-wtp-393
         
         model-gef-502
-        model-emf-2140
+        model-emfxsd-2130
         model-gmf-1120
         model-xpand-220
         model-graphiti-0140
