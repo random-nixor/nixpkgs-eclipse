@@ -57,8 +57,8 @@ let
     in runCommand "makeLaunchingPrefs" {
     }
     ''
-	    mkdir -p $out/${prefsDir}
-	    echo "${prefsText}" > $out/${prefsFile}
+        mkdir -p $out/${prefsDir}
+        echo "${prefsText}" > $out/${prefsFile}
     '';
    
 in

@@ -74,21 +74,21 @@ rec {
         ];
         targetText = concatStringsSep "\n" targetList;
         
-	    result = stdenvNoCC.mkDerivation {
-	        inherit base path;
-	        name = "eclipini-${name}";
-	        phases = [ "buildPhase" ];
-	        meta = {
-	            priority = 0;
-	        };
-	        buildPhase = ''
-	            targetDir="$out/$base"
+        result = stdenvNoCC.mkDerivation {
+            inherit base path;
+            name = "eclipini-${name}";
+            phases = [ "buildPhase" ];
+            meta = {
+                priority = 0;
+            };
+            buildPhase = ''
+                targetDir="$out/$base"
                 targetIni="$targetDir/$path"
                 targetRoot=$(dirname $targetIni)
-	            mkdir -p "$targetRoot"
-	            echo "${targetText}" > "$targetIni"
-	        '';
-	    };
+                mkdir -p "$targetRoot"
+                echo "${targetText}" > "$targetIni"
+            '';
+        };
     in 
     result // {
         base = with result; "${out}/${base}";
