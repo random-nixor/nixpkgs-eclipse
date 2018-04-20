@@ -17,11 +17,11 @@ let
     launcher = {
         dirNameOf = path: concatStringsSep "/" ( init ( splitString "/" path) );
     }
-	// include ./eclipini.nix {}
-	// include ./install.nix {}
-	// include ./settings.nix {}
-	// include ./splasher.nix {}
-	// include ./wrapper.nix {}
+    // include ./eclipini.nix {}
+    // include ./install.nix {}
+    // include ./settings.nix {}
+    // include ./splasher.nix {}
+    // include ./wrapper.nix {}
     ; 
 
     context = rec {

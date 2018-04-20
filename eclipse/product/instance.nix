@@ -64,8 +64,8 @@ let
     };
     
     productResult = buildEnv {
-        name = "result-${productName}";
-        paths = [ productRooter dropinsRooter productEclipseIni productWrapper];
+       name = productName;
+       paths = [ productRooter dropinsRooter productEclipseIni productWrapper];
     };
   
 in

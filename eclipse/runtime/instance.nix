@@ -51,19 +51,19 @@ let
         base = runtimeBase;
     };
 
-	runtimeWrapper = makeLauncherWrapper {
-	   sors = runtimeRooter;
+    runtimeWrapper = makeLauncherWrapper {
+       sors = runtimeRooter;
        name = runtimeName;
        base = runtimeBase;
        eclipini = runtimeEclipseIni;
-	};
+    };
 
     runtimeResult = buildEnv {
-        name = "result-${runtimeName}";
-        paths = [ runtimeRooter runtimeEclipseIni runtimeWrapper ];
-        passthru = {
-            install = runtimeInstall;
-        };
+       name = runtimeName;
+       paths = [ runtimeRooter runtimeEclipseIni runtimeWrapper ];
+       passthru = {
+           install = runtimeInstall;
+       };
     };
     
 in

@@ -106,18 +106,18 @@ rec {
     let 
         result = stdenvNoCC.mkDerivation {
             inherit base;
-	        name = "wrapper-${name}";
-	        link = "bin/${name}";
-	        path = optionLauncherExe;
-	        buildInputs = [ makeWrapper ];
-	        phases = [ "buildPhase" ];
-	        buildPhase = ''
-	           exec=${sors.base}/$path
-	           link=$out/$link
-	           makeWrapper "$exec" "$link" ${wrapperParams {
-	               flagsList = [ ''--launcher.ini \"${eclipini.path}\"'' ];
-	           }}
-	        '';
+            name = "wrapper-${name}";
+            link = "bin/${name}";
+            path = optionLauncherExe;
+            buildInputs = [ makeWrapper ];
+            phases = [ "buildPhase" ];
+            buildPhase = ''
+               exec=${sors.base}/$path
+               link=$out/$link
+               makeWrapper "$exec" "$link" ${wrapperParams {
+                   flagsList = [ ''--launcher.ini \"${eclipini.path}\"'' ];
+               }}
+            '';
         };
     in 
     result // {
