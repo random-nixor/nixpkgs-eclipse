@@ -21,19 +21,19 @@ rec {
     # base repo type
     repoAny = { name, deps ? [], buildInputs ? [], passthru ? {}, ... } @ attrs:
     
-	    stdenvNoCC.mkDerivation (attrs // {
-	    
-	      inherit deps;
-	    
-	      name = optionDropinPackage name;
-	      
-	      buildInputs = buildInputs ++ [ unzip ];
-	      
-	      passthru = {
-	        isEclipseDropin = true;
-	      } // passthru;
-	      
-	    });
+        stdenvNoCC.mkDerivation (attrs // {
+        
+          inherit deps;
+        
+          name = optionDropinPackage name;
+          
+          buildInputs = buildInputs ++ [ unzip ];
+          
+          passthru = {
+            isEclipseDropin = true;
+          } // passthru;
+          
+        });
     
     # produce dropin from exploded update site directory
     repoDir = { name, src, ... } @ attrs: repoAny (attrs // {

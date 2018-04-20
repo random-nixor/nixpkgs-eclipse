@@ -17,8 +17,9 @@ let
 in
 rec {
 
-    ide-dltk-deps = [ 
-      tools-linux-621 # FIXME reduce 
+    ide-dltk-deps-5 = [
+        orbit-antlr-runtime-300
+        tools-linux-621 # FIXME reduce 
     ];
     
     ### 581
@@ -32,7 +33,7 @@ rec {
             url = "${drop-581}/dltk-R-5.8.1-201708260401.zip" ;
             sha256 = "1n8dpjw8v6yrgawsbmq1i233m7698nhj996375jd8f8aw4ay17fq";
         };
-        deps = ide-dltk-deps;
+        deps = ide-dltk-deps-5;
     };
 
     ide-dltk-sdk-581 = instance.repoDir {
@@ -65,7 +66,7 @@ rec {
             url = "${drop-581}/dltk-sh-R-5.8.1-201708260401.zip" ;
             sha256 = "15dd0pkf1sl6p1pyd27qhfbvp01ckas5rf1arr30q4csj16sd51q";
         };
-        deps = ide-dltk-deps;
+        deps = ide-dltk-deps-5;
     };
     
     ### 582
@@ -78,7 +79,7 @@ rec {
 #            url = "${drop-582}/dltk-R-5.8.2-201709190955.zip" ;
 #            sha256 = "0n8dpjw8v6yrgawsbmq1i233m7698nhj996375jd8f8aw4ay17fq";
 #        };
-#        deps = ide-dltk-deps;
+#        deps = ide-dltk-deps-5;
 #    };
 
 }

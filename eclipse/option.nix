@@ -2,28 +2,39 @@
 # Provide options to customize build.
 #
 
-{ pkgs, requireFetch }:
+{ pkgs, requireFetch, oraclejdk8, oraclejdk10 }:
 
 let
 in rec
 {
 
     # package with auto-fetch
-    oraclejdk8auto = pkgs.oraclejdk8.override (attrs: {
+    oraclejdk8auto = oraclejdk8.override (attrs: {
         requireFile = requireFetch;
     });
-    oraclejdk10auto = pkgs.oraclejdk10.override (attrs: {
+    oraclejdk10auto = oraclejdk10.override (attrs: {
         requireFile = requireFetch;
     });
 
-    optionJDK = oraclejdk10auto;
+    # jdk used to run eclipse
+    optionEclipseJDK = oraclejdk8auto;
     
-    optionUseTitle = true;
+    # available jres/jdks inside eclipse
+    optionJavaList = [
+        oraclejdk8auto
+        oraclejdk10auto
+    ];
+    
+    optionSetFonts = true;
+    
+    optionUseName = true;
     optionUseSplash = true; 
     optionUseConfigPath = true;
+    optionUseInstallPath = true;
     optionUseInstancePath = true;
+    optionUseProvisionPath = false; # FIXME breaks fetchsite
 
-    optionDropinProperty = "org.eclipse.equinox.p2.reconciler.dropins.directory";
+    optionDropinsProperty = "org.eclipse.equinox.p2.reconciler.dropins.directory";
 
     optionArkonName = "eclipse";
     optionDropinName = "${optionArkonName}-dropin";
@@ -34,17 +45,17 @@ in rec
     optionProductPackage = name: "${optionProductName}-${name}";
     optionRuntimePackage = name: "${optionRuntimeName}-${name}";
     
-    optionRuntimeEtc = "eclipse/etc";
-    optionRuntimeExe = "eclipse/eclipse";
-    optionRuntimeIni = "eclipse/eclipse.ini";
+    optionLauncherCfg = "eclipse/configuraion";
+    optionLauncherExe = "eclipse/eclipse";
+    optionLauncherIni = "eclipse/eclipse.ini";
     optionRuntimeLibCairo = "eclipse/libcairo-swt.so";
 
     optionArkonDir = "${optionArkonName}";
-    optionDropinDir = "${optionArkonDir}/dropin";
+    optionDropinsDir = "${optionArkonDir}/dropins";
     optionProductDir = "${optionArkonDir}/product";
     optionRuntimeDir = "${optionArkonDir}/runtime";
     
-    optionDropinFolder = name: "${optionDropinDir}/${name}";
+    optionDropinFolder = name: "${optionDropinsDir}/${name}";
     optionProductFolder = name: "${optionProductDir}/${name}";
     optionRuntimeFolder = name: "${optionRuntimeDir}/${name}";
         

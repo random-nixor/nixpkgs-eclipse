@@ -4,22 +4,24 @@
 { pkgs, eclipse }:
 
 let
-    makeCall = pkgs.lib.callPackageWith ( pkgs // pkgs.xlibs // context );
-    requireFetch = makeCall ./support/requireFetch {};
+    include = pkgs.lib.callPackageWith ( pkgs // pkgs.xlibs // context );
+    requireFetch = include ./support/requireFetch {};
     context = {
         inherit eclipse requireFetch;
+        oraclejdk8 = include ./support/oracle/jdk8cpu-linux.nix {};
+        oraclejdk10 = include ./support/oracle/jdk10-linux.nix {};
     };
 
 in rec
 {
 
-    dropin = makeCall ./dropin {};
-    product = makeCall ./product {};
-    runtime = makeCall ./runtime {};
+    dropin = include ./dropin {};
+    product = include ./product {};
+    runtime = include ./runtime {};
 
-    option = makeCall ./option.nix {};
+    option = include ./option.nix {};
 
-    wrapper = makeCall ./support/wrapper {};
-    fetchsite = makeCall ./support/fetchsite {};
+    launcher = include ./support/launcher {};
+    fetchsite = include ./support/fetchsite {};
     
 }

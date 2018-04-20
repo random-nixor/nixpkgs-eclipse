@@ -9,8 +9,7 @@ let
     inherit eclipse;
     instance = include ./instance.nix {};
   };
-in rec
-{} 
+in rec {} 
 
 // include ./instance/base.nix {}
 // include ./instance/core.nix {}

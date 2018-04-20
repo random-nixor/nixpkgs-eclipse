@@ -20,7 +20,9 @@ Features:
 * supports `dropin` dependency 
 * supports `product` inheritance
 * automatically downloads oracle jdk
+* provisions eclipse default settings
 * provides splash screen customization
+* exposes installed application for review
 * enables more platform / version combinations
 
 Usage:

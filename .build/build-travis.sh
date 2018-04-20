@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 #
-# build configuratiion for travis ci
+# build configuration for travis ci
 #
 
 set -e -u

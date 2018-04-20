@@ -2,10 +2,9 @@
 # Produce product form runtime and dropins 
 #
 { stdenvNoCC
-, eclipse 
+, eclipse
 , buildEnv
-, runCommand
-, makeWrapper
+#, makeWrapper
 }:
 
 # instance function
@@ -16,61 +15,70 @@
 , javaArgs ? [] # java-vm command line options 
 }:
 
-with eclipse.option;
-with eclipse.wrapper;
 with stdenvNoCC.lib;
+
+with eclipse.option;
+with eclipse.launcher;
 
 let
 
-  productName = optionProductPackage name;
+    productBase = optionProductFolder name;
+    productName = optionProductPackage name;
+    
+    dropinsInstall = makeDropinsInstall {
+        dropins = dropins;
+        name = productName;
+    };
+    
+    dropinsRooter = makeFolderRooter {
+        sors = dropinsInstall;
+        name = productName;
+        base = productBase;
+        path = optionDropinsDir;
+    };
+    
+    runtimeInstall = runtime.result.install;
 
-  dropinsList = flatten(dropins);
-  dropinsDeps = concatMap (x: x.deps) dropinsList;
-  dropinsDepsList = flatten(dropinsDeps);
-  productDropins = unique (dropinsList ++ dropinsDepsList);
-  productEnvPaths = filter (x: x ? isEclipseDropin) (productDropins);
+    productRooter = makeFolderRooter {
+        sors = runtimeInstall;
+        name = productName;
+        base = productBase;
+        path = "eclipse";
+    };
 
-  productEnv = buildEnv {
-    name = "${productName}-dropins";
-    paths = productEnvPaths;
-  };
-
-  dropinKey = optionDropinProperty;
-  dropinValue = "${productEnv}/${optionDropinDir}";
-  dropinEntry = "-D${dropinKey}=${dropinValue}";
+    dropinsEntry = "-D${optionDropinsProperty}=${dropinsRooter.path}";
   
-  execArgsText = concatStringsSep "\n" ( execArgs );
-  javaArgsText = concatStringsSep "\n" ( javaArgs ++ [dropinEntry] );
-
-  runtimeBase = "${runtime.out}/${runtime.base}"; # FIXME move to option
-
+    productEclipseIni = makeEclipseIni {
+       sors = productRooter;
+       name = productName;
+       base = productBase;
+       execArgs = execArgs;
+       javaArgs = javaArgs ++ [ dropinsEntry ];
+    };
+  
+    productWrapper = makeLauncherWrapper {
+       sors = productRooter;
+       name = productName;
+       base = productBase;
+       eclipini = productEclipseIni;
+    };
+    
+    productResult = buildEnv {
+        name = "result-${productName}";
+        paths = [ productRooter dropinsRooter productEclipseIni productWrapper];
+    };
+  
 in
+rec {
 
-stdenvNoCC.mkDerivation {
+    inherit meta;
+    inherit runtime dropins execArgs javaArgs;
+    
+    base = productBase;
+    name = productName;
+    
+    exec = productWrapper.link;
+    
+    result = productResult;
 
-  inherit runtime dropins execArgs javaArgs;
-
-  name = productName;
-
-  buildInputs = [ makeWrapper ];
-
-  phases = [ "buildPhase" ];
-
-  buildPhase = ''
-  
-    executable="${runtimeBase}/${optionRuntimeExe}"
-    binaryLink="$out/bin/${productName}"
-    sourceIni="${runtimeBase}/${optionRuntimeIni}"
-    targetIni="$out/etc/eclipse/${productName}.ini"
-
-    mkdir -p $out/bin $out/etc/eclipse
-
-    echo "${execArgsText}" > $targetIni 
-    cat $sourceIni >> $targetIni
-    echo "${javaArgsText}" >> $targetIni 
-
-    ${wrapperCommand { name=productName; exec="$executable"; link="$binaryLink"; config="$targetIni"; }}
-
-  '';
-  
 }
