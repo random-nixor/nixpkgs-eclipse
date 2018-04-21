@@ -4,78 +4,109 @@
 { stdenvNoCC
 , eclipse
 , buildEnv
-#, makeWrapper
-}:
-
-# instance function
-{ name # unique product name
-, runtime # base binary of a product
-, dropins ? [] # product dependencies
-, execArgs ? [] # eclipse command line options 
-, javaArgs ? [] # java-vm command line options 
 }:
 
 with stdenvNoCC.lib;
-
 with eclipse.option;
 with eclipse.launcher;
 
+# instance function
+{ name # unique product name
+, meta ? {} # product origin descriptor 
+, runtime ? null # base binary of a product
+, dropins ? [] # product dependencies
+, execArgs ? [] # eclipse command line options 
+, javaArgs ? [] # java-vm command line options 
+, javaList ? [] # available public jdks/jres
+, super ? { # product type inheritance
+        runtime = abort "Missing 'super.runtime'";
+		dropins = [];
+		execArgs = []; 
+		javaArgs = []; 
+		javaList = optionJavaList;
+    }
+}:
+
 let
 
-    productBase = optionProductFolder name;
-    productName = optionProductPackage name;
-    
-    dropinsInstall = makeDropinsInstall {
-        dropins = dropins;
-        name = productName;
+    # inheritance marker    
+    mark = [ "# ${name}" ];
+
+    # inheritance composition
+    this = {
+	    base = optionProductFolder name;
+	    name = optionProductPackage name;
+        runtime = if runtime != null then runtime else super.runtime; 
+	    dropins = super.dropins ++ dropins;
+        javaList = super.javaList ++ javaList;
+	    execArgs = super.execArgs ++ mark ++ execArgs;
+	    javaArgs = super.javaArgs ++ mark ++ javaArgs;
+    };
+
+    dropinsInstall = makeDropinsFolder {
+        inherit (this) name;
+        dropins = this.dropins;
     };
     
     dropinsRooter = makeFolderRooter {
+        inherit (this) name base;
         sors = dropinsInstall;
-        name = productName;
-        base = productBase;
         path = optionDropinsDir;
     };
-    
-    runtimeInstall = runtime.result.install;
 
+    productInstall = this.runtime.result.install;
+    
     productRooter = makeFolderRooter {
-        sors = runtimeInstall;
-        name = productName;
-        base = productBase;
-        path = "eclipse";
+        inherit (this) name base;
+        sors = productInstall;
+        path = "eclipse"; # XXX
     };
 
+    productConfig = makeConfigFolder {
+        inherit (this) name base;
+        sors = productRooter;
+        javaList = this.javaList;
+    };
+
+    configEntry = "-D${optionConfigProperty}=${productConfig.path}";
     dropinsEntry = "-D${optionDropinsProperty}=${dropinsRooter.path}";
-  
+
     productEclipseIni = makeEclipseIni {
-       sors = productRooter;
-       name = productName;
-       base = productBase;
-       execArgs = execArgs;
-       javaArgs = javaArgs ++ [ dropinsEntry ];
+        inherit (this) name base;
+        sors = productRooter;
+        execArgs = [ ] ++ this.execArgs;
+        javaArgs = [ configEntry dropinsEntry ] ++ this.javaArgs;
     };
   
     productWrapper = makeLauncherWrapper {
-       sors = productRooter;
-       name = productName;
-       base = productBase;
-       eclipini = productEclipseIni;
+        inherit (this) name base;
+        sors = productRooter;
+        eclipseIni = productEclipseIni;
+    };
+    
+    productEclipseJava = makeEclipseJava {
+        javaList = this.javaList;
     };
     
     productResult = buildEnv {
-       name = productName;
-       paths = [ productRooter dropinsRooter productEclipseIni productWrapper];
+        inherit (this) name;
+        paths = [
+            productRooter 
+            dropinsRooter 
+            productConfig
+            productEclipseIni
+            productWrapper 
+        ];
     };
   
 in
 rec {
 
     inherit meta;
-    inherit runtime dropins execArgs javaArgs;
     
-    base = productBase;
-    name = productName;
+    inherit (this) name base runtime dropins execArgs javaArgs javaList;
+    
+    java = productEclipseJava;
     
     exec = productWrapper.link;
     

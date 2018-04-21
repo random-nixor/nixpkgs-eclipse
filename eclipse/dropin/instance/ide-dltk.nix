@@ -19,7 +19,7 @@ rec {
 
     ide-dltk-deps-5 = [
         orbit-antlr-runtime-300
-        tools-linux-621 # FIXME reduce 
+        tool-linux-621 # FIXME reduce 
     ];
     
     ### 581

@@ -21,6 +21,11 @@ with eclipse.launcher;
 
 let
 
+    this = {
+        base = optionRuntimeFolder name;
+        name = optionRuntimePackage name;
+    };
+
     system = stdenvNoCC.system;
 
     package = if hasAttr system packages 
@@ -30,40 +35,38 @@ let
     
     packageName = baseNameOf package.url;
         
-    runtimeBase = optionRuntimeFolder name;
-    runtimeName = optionRuntimePackage name;
-
     runtimeInstall = makePackageInstall {
         package = package;
         name = packageName;
     };
 
     runtimeRooter = makeFolderRooter {
+        inherit (this) name base;
         sors = runtimeInstall;
-        name = runtimeName;
-        base = runtimeBase;
         path = "eclipse";
     };
 
     runtimeEclipseIni = makeEclipseIni {
+        inherit (this) name base;
         sors = runtimeRooter;
-        name = runtimeName;
-        base = runtimeBase;
     };
 
     runtimeWrapper = makeLauncherWrapper {
-       sors = runtimeRooter;
-       name = runtimeName;
-       base = runtimeBase;
-       eclipini = runtimeEclipseIni;
+        inherit (this) name base;
+        sors = runtimeRooter;
+        eclipseIni = runtimeEclipseIni;
     };
 
     runtimeResult = buildEnv {
-       name = runtimeName;
-       paths = [ runtimeRooter runtimeEclipseIni runtimeWrapper ];
-       passthru = {
-           install = runtimeInstall;
-       };
+        inherit (this) name;
+        paths = [
+            runtimeRooter 
+            runtimeEclipseIni 
+            runtimeWrapper
+        ];
+        passthru = {
+            install = runtimeInstall;
+        };
     };
     
 in
@@ -72,8 +75,7 @@ rec {
 
     inherit meta;
     
-    base = runtimeBase;
-    name = runtimeName;
+    inherit (this) name base;
     
     exec = runtimeWrapper.link;
     

@@ -102,7 +102,7 @@ rec {
     '';
     
     # generate eclipse wrapper
-    makeLauncherWrapper = { sors, name, base, eclipini }:
+    makeLauncherWrapper = { sors, name, base, eclipseIni }:
     let 
         result = stdenvNoCC.mkDerivation {
             inherit base;
@@ -115,7 +115,7 @@ rec {
                exec=${sors.base}/$path
                link=$out/$link
                makeWrapper "$exec" "$link" ${wrapperParams {
-                   flagsList = [ ''--launcher.ini \"${eclipini.path}\"'' ];
+                   flagsList = [ ''--launcher.ini \"${eclipseIni.path}\"'' ];
                }}
             '';
         };

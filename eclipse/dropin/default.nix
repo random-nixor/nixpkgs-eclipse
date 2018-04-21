@@ -36,6 +36,7 @@ in rec {}
 // include ./instance/ide-python.nix {}
 // include ./instance/ide-scala.nix {}
 // include ./instance/ide-statet.nix {}
+// include ./instance/ide-xmind.nix {}
 #// include ./instance/ide-xtend.nix {}
 // include ./instance/ide-xtext.nix {}
 // include ./instance/ide-wtp.nix {}
@@ -62,7 +63,8 @@ in rec {}
 // include ./instance/style-java.nix {}
 // include ./instance/style-scala.nix {}
     
-// include ./instance/tools-bnd.nix {}
-// include ./instance/tools-linux.nix {}
-// include ./instance/tools-oomph.nix {}
-// include ./instance/tools-unit.nix {}
+// include ./instance/tool-bnd.nix {}
+// include ./instance/tool-decompile.nix {}
+// include ./instance/tool-linux.nix {}
+// include ./instance/tool-oomph.nix {}
+// include ./instance/tool-unit.nix {}

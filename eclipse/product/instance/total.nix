@@ -1,21 +1,19 @@
 #
 # Product "total" from scratch with all dropins.
 #
-
 { instance, eclipse }:
 
 with eclipse;
 with dropin;
 
 let
-    super-473a = product.base-473a;
 in
 rec {
 
   total-473a = instance {
     name = "total-473a";
-    runtime = super-473a.runtime;
-    dropins = super-473a.dropins ++ [
+    super = product.base-473a;
+    dropins = [
     
         base-equinox-473a
 
@@ -65,9 +63,9 @@ rec {
         style-java-880
         style-scala-100
         
-        tools-bnd-350
-        tools-linux-621
-        tools-moreunit-311
+        tool-bnd-350
+        tool-linux-621
+        tool-moreunit-311
         
     ];
     execArgs = [
@@ -80,6 +78,7 @@ rec {
         "-Xmx3g"
 #        "-XX:+UnlockCommercialFeatures" 
 #        "-XX:+FlightRecorder"
+#        "-Dosgi.checkConfiguration=true"
     ];
   };
   

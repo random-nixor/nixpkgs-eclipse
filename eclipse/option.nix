@@ -1,8 +1,11 @@
 #
 # Provide options to customize build.
 #
-
-{ pkgs, requireFetch, oraclejdk8, oraclejdk10 }:
+{ pkgs
+, requireFetch
+, oraclejdk8
+, oraclejdk10
+}:
 
 let
 in rec
@@ -17,24 +20,39 @@ in rec
     });
 
     # jdk used to run eclipse
-    optionEclipseJDK = oraclejdk8auto;
+    optionEclipseJDK = oraclejdk10auto;
     
-    # available jres/jdks inside eclipse
+    # jres/jdks available for eclipse
     optionJavaList = [
         oraclejdk8auto
         oraclejdk10auto
     ];
+    
+    # public path for companion jres/jdks 
+    optionEclipseJava = "eclipse/java";
     
     optionSetFonts = true;
     
     optionUseName = true;
     optionUseSplash = true; 
     optionUseConfigPath = true;
-    optionUseInstallPath = true;
+#    optionUseInstallPath = true;
     optionUseInstancePath = true;
-    optionUseProvisionPath = false; # FIXME breaks fetchsite
+    
+    optionUseConfigCascade = true;
+#    optionUseSharedConfig = true;
+#    optionUseProvisionPath = false; # FIXME breaks fetchsite
 
+    # http://www-01.ibm.com/support/docview.wss?uid=swg21328849
     optionDropinsProperty = "org.eclipse.equinox.p2.reconciler.dropins.directory";
+
+    # https://help.eclipse.org/oxygen/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Freference%2Fmisc%2Fruntime-options.html
+    optionConfigProperty = "osgi.sharedConfiguration.area";
+
+    optionLauncherCfg = "eclipse/configuration";
+    optionLauncherIni = "eclipse/eclipse.ini";
+    optionLauncherExe = "eclipse/eclipse";
+    optionLauncherLibCairo = "eclipse/libcairo-swt.so";
 
     optionArkonName = "eclipse";
     optionDropinName = "${optionArkonName}-dropin";
@@ -45,11 +63,6 @@ in rec
     optionProductPackage = name: "${optionProductName}-${name}";
     optionRuntimePackage = name: "${optionRuntimeName}-${name}";
     
-    optionLauncherCfg = "eclipse/configuraion";
-    optionLauncherExe = "eclipse/eclipse";
-    optionLauncherIni = "eclipse/eclipse.ini";
-    optionRuntimeLibCairo = "eclipse/libcairo-swt.so";
-
     optionArkonDir = "${optionArkonName}";
     optionDropinsDir = "${optionArkonDir}/dropins";
     optionProductDir = "${optionArkonDir}/product";

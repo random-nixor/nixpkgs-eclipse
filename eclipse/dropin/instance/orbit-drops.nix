@@ -8,12 +8,13 @@ let
     drops2 = http://download.eclipse.org/tools/orbit/downloads/drops2 ;
     meta = {
         homepage = https://www.eclipse.org/orbit ;
-        description = "Orbit will provide a repository of bundled versions of third party libraries";
+        description = "Orbit provides a repository of bundled versions of third party libraries";
     };
 in 
 rec {
 
   orbit-antlr-runtime-300 = instance.repoJars {
+    inherit meta;
     name = "orbit-antlr-runtime-300";
     plugins = [
         (fetchurl{
@@ -24,6 +25,7 @@ rec {
   };
 
   orbit-google-inject-300 = instance.repoJars {
+    inherit meta;
     name = "orbit-google-inject-300";
     plugins = [
         (fetchurl{
@@ -34,6 +36,7 @@ rec {
   };
 
   orbit-objectweb-asm-520 = instance.repoJars {
+    inherit meta;
     name = "orbit-objectweb-asm-520";
     plugins = [
         (fetchurl{

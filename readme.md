@@ -22,6 +22,7 @@ Features:
 * automatically downloads oracle jdk
 * provisions eclipse default settings
 * provides splash screen customization
+* supports launching companion jdks/jres
 * exposes installed application for review
 * enables more platform / version combinations
 
