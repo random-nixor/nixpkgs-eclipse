@@ -11,7 +11,8 @@ let
 in 
 rec {
 
-  ide-groovy-292 = instance.repoDir {
+    # NOTE https://github.com/groovy/groovy-eclipse/issues/574
+    ide-groovy-292 = instance.repoDir {
     inherit meta;
     name = "ide-groovy-292";
     src = fetchsite {

@@ -21,7 +21,9 @@ cd $root
 
 #nix-env -f default.nix -i -A eclipse.dropin.base-equinox-473a
 
-nix-env -f default.nix -i -A eclipse.dropin.build-maven-190
+#nix-env -f default.nix -i -A eclipse.dropin.build-maven-190
+
+nix-env -f default.nix -i -A eclipse.dropin.ide-xmind-87
 
 # jars list
 #nix-env -f default.nix -i -A eclipse.dropin.build-maven-log-172

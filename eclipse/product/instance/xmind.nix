@@ -1,5 +1,5 @@
 #
-# Java IDE for work
+# Xmind organizer
 #
 { instance, eclipse }:
 
@@ -10,22 +10,22 @@ let
 in 
 rec {
 
-  java-dsl-473a = instance {
-    name = "java-dsl-473a";
-    super = product.java-main-473a;
+  xmind-87 = instance {
+    name = "xmind-87";
+    super = product.base-473a;
     dropins = [
     
-        ide-xtext-2130
+        base-equinox-473a
         
-        ide-pde-473a
-    
+        ide-xmind-87
+        
     ];
     execArgs = [
 #        "-clean"
     ];
     javaArgs = [
-        "-Xms2g"
-        "-Xmx2g"
+        "-Xms1g"
+        "-Xmx1g"
 #        "-Dosgi.checkConfiguration=true"
     ];
   };

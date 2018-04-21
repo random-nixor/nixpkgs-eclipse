@@ -1,14 +1,12 @@
 #
 # Product super type: bare minimum
 #
-
 { instance, eclipse }:
 
 with eclipse;
 with dropin;
 
 let
-    # no super
 in 
 rec {
 

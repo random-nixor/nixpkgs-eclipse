@@ -1,14 +1,12 @@
 #
 # Product super type: with Java and more
 #
-
 { instance, eclipse }:
 
 with eclipse;
 with dropin;
 
 let
-    # no super
 in 
 rec {
 

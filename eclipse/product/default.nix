@@ -25,3 +25,5 @@ in rec {}
 // include ./instance/scala-total.nix {}
 
 // include ./instance/total.nix {}
+
+// include ./instance/xmind.nix {}

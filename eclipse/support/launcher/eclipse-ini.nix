@@ -13,13 +13,17 @@ with stdenvNoCC.lib;
 
 let 
 
+    # exec
     iniName = name: [ "-name" name ];
     iniSplashPath = name: [ "-showsplash" (makeSplash name) ];
     iniConfigPath = name: [ "-configuration" "@user.home/.eclipse/${name}/configuration" ];
     iniInstancePath = name: [ "-data" "@user.home/.eclipse/${name}/instance" ];
     iniInstallPath = path: [ "-install" path ];
     
+    # java
     iniProvisionPath = name: [ "-Declipse.p2.data.area=@user.home/.eclipse/${name}/provision" ];
+    iniConfigCascade = [ "-Dosgi.configuration.cascaded=true" ];
+    iniSharedConfigPath = path: [ "-Dosgi.sharedConfiguration.area=${path}" ];
 
 in
 rec {
@@ -35,7 +39,9 @@ rec {
             ++ (if optionUseInstancePath then (iniInstancePath name) else [])
         ;
         javaGens = []
-            ++ (if optionUseProvisionPath then (iniProvisionPath name) else [])
+            ++ (if optionUseConfigCascade then (iniConfigCascade) else [])
+#            ++ (if optionUseSharedConfig then (iniSharedConfigPath base) else [])
+#            ++ (if optionUseProvisionPath then (iniProvisionPath name) else [])
         ;
     
         vmargs = "-vmargs\n";
@@ -76,7 +82,7 @@ rec {
         
         result = stdenvNoCC.mkDerivation {
             inherit base path;
-            name = "eclipini-${name}";
+            name = "eclipse-ini-${name}";
             phases = [ "buildPhase" ];
             meta = {
                 priority = 0;

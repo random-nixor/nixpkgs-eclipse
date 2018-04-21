@@ -8,8 +8,8 @@ let
 in 
 rec {
 
-  tools-moreunit-311 = instance.repoDir {
-    name = "tools-moreunit-311";
+  tool-moreunit-311 = instance.repoDir {
+    name = "tool-moreunit-311";
     src = fetchzip {
       stripRoot = true;
       url = "${moreunit-drop-site}/v3.1.1/org.moreunit-3.1.1.zip" ;

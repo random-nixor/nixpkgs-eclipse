@@ -17,9 +17,9 @@ let
     launcher = {
         dirNameOf = path: concatStringsSep "/" ( init ( splitString "/" path) );
     }
-    // include ./eclipini.nix {}
+    // include ./dot-settings.nix {}
+    // include ./eclipse-ini.nix {}
     // include ./install.nix {}
-    // include ./settings.nix {}
     // include ./splasher.nix {}
     // include ./wrapper.nix {}
     ; 

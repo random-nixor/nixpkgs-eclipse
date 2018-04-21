@@ -53,10 +53,13 @@ rec {
         
         cd $base/features
         for feature in *.jar; do
-          featureName=''${feature%.jar}
-          featureUnzip=$featuresOut/$featureName
-          mkdir -p $featureUnzip
-          unzip ${unzipOpts} $feature -d $featureUnzip
+            featureName=''${feature%.jar}
+            featureUnzip=$featuresOut/$featureName
+            mkdir -p $featureUnzip
+            unzip ${unzipOpts} $feature -d $featureUnzip
+        done
+        for feature in */; do
+            cp ${copyOpts} -r $feature $featuresOut
         done
         
         cd $base/plugins
@@ -70,6 +73,9 @@ rec {
           else
             cp ${copyOpts} $plugin $pluginsOut
           fi
+        done
+        for plugin in */; do
+            cp ${copyOpts} -r $plugin $pluginsOut
         done
         
       '';
