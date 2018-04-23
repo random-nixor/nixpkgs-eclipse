@@ -21,6 +21,7 @@ Features:
 * supports `product` inheritance
 * automatically downloads oracle jdk
 * provisions eclipse default settings
+* supports desktop item customization
 * provides splash screen customization
 * supports launching companion jdks/jres
 * exposes installed application for review

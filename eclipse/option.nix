@@ -27,6 +27,9 @@ in rec
         oraclejdk8auto
         oraclejdk10auto
     ];
+
+    # public eclipse desktop items
+    optionEclipseDesk = "eclipse/desk";
     
     # public path for companion jres/jdks 
     optionEclipseJava = "eclipse/java";

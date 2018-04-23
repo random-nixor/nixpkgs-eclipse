@@ -17,6 +17,7 @@ let
     launcher = {
         dirNameOf = path: concatStringsSep "/" ( init ( splitString "/" path) );
     }
+    // include ./desktop.nix {}
     // include ./dot-settings.nix {}
     // include ./eclipse-ini.nix {}
     // include ./install.nix {}

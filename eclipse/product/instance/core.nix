@@ -11,6 +11,7 @@ in
 rec {
 
   core-473a = instance {
+    icon = "eclipse-2";
     name = "core-473a";
     runtime = runtime.core-473a;
     dropins = [

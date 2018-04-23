@@ -26,9 +26,11 @@ product_list=(
     cpp-473a
     java-473a
     java-main-473a
+    java-dsl-473a
     scala-473a
     scala-main-473a
-    total-473a
+    xmind-87
+#    total-473a
 )
 
 time build_list

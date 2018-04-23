@@ -11,6 +11,7 @@ in
 rec {
 
   java-473a = instance {
+    icon = "eclipse-java-1";
     name = "java-473a";
     super = product.base-473a;
     dropins = [

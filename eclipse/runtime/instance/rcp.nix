@@ -1,7 +1,6 @@
 #
 # Rich Client IDE
 #
-
 { instance }:
 
 let

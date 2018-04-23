@@ -11,6 +11,7 @@ in
 rec {
 
   xmind-87 = instance {
+    icon = "eclipse-xmind-1";
     name = "xmind-87";
     super = product.base-473a;
     dropins = [

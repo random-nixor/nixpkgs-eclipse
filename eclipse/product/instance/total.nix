@@ -11,6 +11,7 @@ in
 rec {
 
   total-473a = instance {
+    icon = "eclipse-3";
     name = "total-473a";
     super = product.base-473a;
     dropins = [

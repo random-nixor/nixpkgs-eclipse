@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+
+    <style>
+
+        .font-normal {
+        font-style:normal;
+        font-variant:normal;
+        font-weight:normal;
+        font-stretch:normal;
+        font-family:sans-serif;
+        font-size:7.0em;
+        text-anchor: middle;
+        }
+
+        .circ-any {
+        fill: red;
+        stroke: brown;
+        stroke-width: 10px;
+        }
+        .text-any {
+        fill: white;
+        stroke: none;
+        stroke-width:
+        01px;
+        }
+
+        .circ-orange {
+        fill: orange;
+        stroke: brown;
+        stroke-width: 10px;
+        }
+        .text-orange {
+        fill: white;
+        stroke: none;
+        stroke-width: 01px;
+        }
+
+    </style>
+
+    <g>
+
+        <title>Layer 1</title>
+
+        <circle id="circle" class="circ-any" cx="250" cy="250" r="240" />
+
+        <text id="text" class="text-any font-normal" x="250" y="250">
+            <tspan id="text1" dy="-0.8em" x="250" >%t1%</tspan>
+            <tspan id="text2" dy="+1.1em" x="250">%t2%</tspan>
+            <tspan id="text3" dy="+1.1em" x="250">%t3%</tspan>
+        </text>
+
+    </g>
+
+</svg>

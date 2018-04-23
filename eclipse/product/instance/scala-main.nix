@@ -11,6 +11,7 @@ in
 rec {
 
   scala-main-473a = instance {
+    icon = "eclipse-scala-2";
     name = "scala-main-473a";
     super = product.java-main-473a;
     dropins = [
