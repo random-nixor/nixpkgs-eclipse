@@ -9,7 +9,7 @@
 
 [![Eclipse Splash][splash_icon]][splash_link]
 
-This nix package repository provides alternative setup for Eclipse:
+Nix package repository with improved setup for Eclipse:
 [pkgs/applications/editors/eclipse][nixos_eclipse]
 
 Features:
@@ -17,26 +17,27 @@ Features:
 * clean package name space
 * modular package structure
 * mirrors eclipse update sites
+* supports `nixpkgs` [overlays][overlay_blog_link]
 * supports `dropin` dependency 
 * supports `product` inheritance
-* automatically downloads oracle jdk
+* automatically downloads `oracle-jdk`
 * provisions eclipse default settings
 * supports desktop item customization
 * provides splash screen customization
-* supports launching companion jdks/jres
-* exposes installed application for review
-* enables more platform / version combinations
+* supports launching companion `jdks/jres`
+* exposes installed applications for review
+* enables many platform / version combinations
 
 Usage:
 * clone this repository
 * enable [unfree for oracle][wiki_unfree]
-* append/change dropins, products
-* remove matching `$HOME/.eclipse/${product}`
-* invoke provided [build scripts](.build) to verify install
+* cleanup `$HOME/.eclipse/${product}` if any
+* invoke provided [overlay.sh](overlay.sh) to activate overlays
+* append/change products, following [product.nix](product.nix) example
 
 Notes:
 * [build-all.sh](.build/build-all.sh) from scratch (behind cache/proxy)
-  takes 10 minutes and 10 GB of disk
+  takes some 10 minutes and 10 GB of disk
 
 [nixos_eclipse]: https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/editors/eclipse
 
@@ -55,3 +56,5 @@ Notes:
 [tokei_lines_icon]: https://tokei.rs/b1/github/random-nixor/nixpkgs-eclipse?category=lines 
 [tokei_basic_icon]: https://tokei.rs/b1/github/random-nixor/nixpkgs-eclipse
 [tokei_basic_link]: https://github.com/random-nixor/nixpkgs-eclipse 
+
+[overlay_blog_link]: https://blog.flyingcircus.io/2017/11/07/nixos-the-dos-and-donts-of-nixpkgs-overlays/
