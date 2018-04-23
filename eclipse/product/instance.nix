@@ -4,6 +4,7 @@
 { stdenvNoCC
 , eclipse
 , buildEnv
+, makeOverridable
 }:
 
 with stdenvNoCC.lib;
@@ -116,7 +117,10 @@ let
     };
   
 in
-rec {
+#makeOverridable 
+#stdenvNoCC.mkDerivation 
+productResult //
+{
 
     inherit meta;
     
@@ -128,6 +132,6 @@ rec {
     
     exec = productWrapper.link;
     
-    result = productResult;
+#    result = productResult;
 
 }

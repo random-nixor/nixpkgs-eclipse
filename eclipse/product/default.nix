@@ -4,12 +4,12 @@
 { pkgs, eclipse }:
 
 let
-  include = pkgs.lib.callPackageWith ( pkgs // context );
-  context = {
-    inherit eclipse;
+    include = pkgs.lib.callPackageWith ( pkgs // context );
     instance = include ./instance.nix {} ;
-  };
-in rec {}
+    context = {
+      inherit eclipse instance;
+    };
+in context
 
 // include ./instance/base.nix {}
 // include ./instance/core.nix {}

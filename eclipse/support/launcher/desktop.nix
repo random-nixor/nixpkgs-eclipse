@@ -33,12 +33,12 @@ rec {
             buildPhase = ''
                 baseDir=$out/${deskBase}
                 baseFile=$baseDir/${file}
-			    mkdir -p $baseDir
+                mkdir -p $baseDir
                 echo "${text}" > $baseFile
             '';
         } // {
-	        base = "${folder.out}/${deskBase}";
-	        file = "${folder.out}/${deskBase}/${file}";
+            base = "${folder.out}/${deskBase}";
+            file = "${folder.out}/${deskBase}/${file}";
         };
     in folder; 
 
