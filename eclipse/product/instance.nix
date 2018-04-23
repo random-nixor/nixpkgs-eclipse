@@ -12,6 +12,7 @@ with eclipse.launcher;
 
 # instance function
 { name # unique product name
+, icon ? "eclipse-1" # icon template
 , meta ? {} # product origin descriptor 
 , runtime ? null # base binary of a product
 , dropins ? [] # product dependencies
@@ -20,10 +21,10 @@ with eclipse.launcher;
 , javaList ? [] # available public jdks/jres
 , super ? { # product type inheritance
         runtime = abort "Missing 'super.runtime'";
-		dropins = [];
-		execArgs = []; 
-		javaArgs = []; 
-		javaList = optionJavaList;
+        dropins = [];
+        execArgs = []; 
+        javaArgs = []; 
+        javaList = optionJavaList;
     }
 }:
 
@@ -34,13 +35,13 @@ let
 
     # inheritance composition
     this = {
-	    base = optionProductFolder name;
-	    name = optionProductPackage name;
+        base = optionProductFolder name;
+        name = optionProductPackage name;
         runtime = if runtime != null then runtime else super.runtime; 
-	    dropins = super.dropins ++ dropins;
+        dropins = super.dropins ++ dropins;
         javaList = super.javaList ++ javaList;
-	    execArgs = super.execArgs ++ mark ++ execArgs;
-	    javaArgs = super.javaArgs ++ mark ++ javaArgs;
+        execArgs = super.execArgs ++ mark ++ execArgs;
+        javaArgs = super.javaArgs ++ mark ++ javaArgs;
     };
 
     dropinsInstall = makeDropinsFolder {
@@ -88,6 +89,18 @@ let
         javaList = this.javaList;
     };
     
+    productDeskItem = makeDeskItem {
+        inherit icon name;
+        fullName = this.name;
+        exec = productWrapper.link;
+    };
+
+    productDeskLink = makeDeskLink {
+        deskItem = productDeskItem;
+    };
+
+    productDeskFolder = deskFolder;
+    
     productResult = buildEnv {
         inherit (this) name;
         paths = [
@@ -95,7 +108,10 @@ let
             dropinsRooter 
             productConfig
             productEclipseIni
-            productWrapper 
+            productWrapper
+#            productDeskFolder
+            productDeskItem
+            productDeskLink
         ];
     };
   
@@ -106,6 +122,8 @@ rec {
     
     inherit (this) name base runtime dropins execArgs javaArgs javaList;
     
+#    desk = productDeskFolder;
+
     java = productEclipseJava;
     
     exec = productWrapper.link;

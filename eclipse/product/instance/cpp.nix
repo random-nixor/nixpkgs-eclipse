@@ -11,6 +11,7 @@ in
 rec {
 
   cpp-473a = instance {
+    icon = "eclipse-cpp-1";
     name = "cpp-473a";
     super = product.base-473a;
     dropins = [

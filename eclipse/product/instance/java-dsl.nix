@@ -11,6 +11,7 @@ in
 rec {
 
   java-dsl-473a = instance {
+    icon = "eclipse-java-dsl-1";
     name = "java-dsl-473a";
     super = product.java-main-473a;
     dropins = [
