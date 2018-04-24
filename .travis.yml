@@ -8,11 +8,13 @@ language: nix
 #  directories:
 #    - /nix/store  
 install: 
-  - "mkdir -p $HOME/.config/nixpkgs"
-  - "cp .build/ci/config.nix $HOME/.config/nixpkgs/config.nix"
+  - "mkdir -p $HOME/.config/nixpkgs/"
+  - "cp -v -r .build/ci/nixpkgs/* $HOME/.config/nixpkgs/"
 before_script: 
   - "export DISPLAY=:99.0"
   - "/bin/bash /etc/init.d/xvfb start"
 script: 
   - ".build/build-travis.sh"
   - "nix-env -q | grep eclipse | xargs -I % nix-env -e %"
+  - "./overlay.sh"
+  - "nix-env -iA nixpkgs.eclipse-base"
