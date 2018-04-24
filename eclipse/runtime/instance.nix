@@ -22,6 +22,7 @@ with eclipse.launcher;
 let
 
     this = {
+        meta = meta;
         base = optionRuntimeFolder name;
         name = optionRuntimePackage name;
     };
@@ -70,15 +71,6 @@ let
     };
     
 in
-
-rec {
-
-    inherit meta;
-    
-    inherit (this) name base;
-    
+runtimeResult // this // {
     exec = runtimeWrapper.link;
-    
-    result = runtimeResult;
-    
 }

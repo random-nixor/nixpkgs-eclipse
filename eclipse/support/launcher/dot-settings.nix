@@ -56,7 +56,7 @@ let
     let 
         prefsDir = pluginPrefsDir root; 
         prefsFile = pluginPrefsFile root pluginId;
-    in runCommand "eclipse-${pluginId}.prefs" {
+    in runCommand "settings-${pluginId}.prefs" {
     }
     ''
         mkdir -p $out/${prefsDir}

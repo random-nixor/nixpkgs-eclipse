@@ -13,14 +13,15 @@ with eclipse.launcher;
 
 # instance function
 { name # unique product name
-, icon ? "eclipse-1" # icon template
 , meta ? {} # product origin descriptor 
+, icon ? null # desktop icon template
 , runtime ? null # base binary of a product
 , dropins ? [] # product dependencies
 , execArgs ? [] # eclipse command line options 
 , javaArgs ? [] # java-vm command line options 
 , javaList ? [] # available public jdks/jres
 , super ? { # product type inheritance
+        icon = abort "Missing 'super.icon'";
         runtime = abort "Missing 'super.runtime'";
         dropins = [];
         execArgs = []; 
@@ -31,13 +32,15 @@ with eclipse.launcher;
 
 let
 
-    # inheritance marker    
+    # inheritance origin    
     mark = [ "# ${name}" ];
 
     # inheritance composition
     this = {
+        meta = meta;
         base = optionProductFolder name;
         name = optionProductPackage name;
+        icon = if icon != null then icon else super.icon;
         runtime = if runtime != null then runtime else super.runtime; 
         dropins = super.dropins ++ dropins;
         javaList = super.javaList ++ javaList;
@@ -56,11 +59,9 @@ let
         path = optionDropinsDir;
     };
 
-    productInstall = this.runtime.result.install;
-    
     productRooter = makeFolderRooter {
         inherit (this) name base;
-        sors = productInstall;
+        sors = this.runtime.install;
         path = "eclipse"; # XXX
     };
 
@@ -91,7 +92,8 @@ let
     };
     
     productDeskItem = makeDeskItem {
-        inherit icon name;
+        name = name;
+        icon = this.icon; 
         fullName = this.name;
         exec = productWrapper.link;
     };
@@ -117,21 +119,8 @@ let
     };
   
 in
-#makeOverridable 
-#stdenvNoCC.mkDerivation 
-productResult //
-{
-
-    inherit meta;
-    
-    inherit (this) name base runtime dropins execArgs javaArgs javaList;
-    
+productResult // this // {
 #    desk = productDeskFolder;
-
     java = productEclipseJava;
-    
     exec = productWrapper.link;
-    
-#    result = productResult;
-
 }
