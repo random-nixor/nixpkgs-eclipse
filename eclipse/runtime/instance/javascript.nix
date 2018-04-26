@@ -1,7 +1,6 @@
 #
 # JavaScript IDE
 #
-
 { instance }:
 
 let

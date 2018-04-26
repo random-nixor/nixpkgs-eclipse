@@ -2,10 +2,8 @@
 # Produce runtime from external repository
 #
 { stdenvNoCC
-, pkgs
 , eclipse
 , buildEnv
-, makeWrapper
 }:
 
 # instance function
@@ -13,8 +11,6 @@
 , meta ? {} # runtime origin descriptor 
 , packages ? {} # mapping: system -> download
 }:
-
-with builtins;
 
 with eclipse.option;
 with eclipse.launcher;
@@ -29,7 +25,7 @@ let
 
     system = stdenvNoCC.system;
 
-    package = if hasAttr system packages 
+    package = if builtins.hasAttr system packages 
         then packages."${system}"
         else abort "Missing package for system: ${system}"
     ;

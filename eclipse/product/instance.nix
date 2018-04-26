@@ -2,12 +2,11 @@
 # Produce product form runtime and dropins 
 #
 { stdenvNoCC
+, lib
 , eclipse
 , buildEnv
-, makeOverridable
 }:
 
-with stdenvNoCC.lib;
 with eclipse.option;
 with eclipse.launcher;
 
@@ -20,6 +19,10 @@ with eclipse.launcher;
 , execArgs ? [] # eclipse command line options 
 , javaArgs ? [] # java-vm command line options 
 , javaList ? [] # available public jdks/jres
+, scriptList ? [] # pass to wrapper
+, enviroList ? [] # pass to wrapper
+, prefixList ? [] # pass to wrapper
+, optionList ? [] # pass to wrapper
 , super ? { # product type inheritance
         icon = abort "Missing 'super.icon'";
         runtime = abort "Missing 'super.runtime'";
@@ -27,6 +30,10 @@ with eclipse.launcher;
         execArgs = []; 
         javaArgs = []; 
         javaList = optionJavaList;
+        scriptList = [];
+        enviroList = [];
+        prefixList = [];
+        optionList = [];
     }
 }:
 
@@ -46,6 +53,10 @@ let
         javaList = super.javaList ++ javaList;
         execArgs = super.execArgs ++ mark ++ execArgs;
         javaArgs = super.javaArgs ++ mark ++ javaArgs;
+        scriptList = super.scriptList ++ scriptList;
+        enviroList = super.enviroList ++ enviroList;
+        prefixList = super.prefixList ++ prefixList;
+        optionList = super.optionList ++ optionList;
     };
 
     dropinsInstall = makeDropinsFolder {
@@ -81,15 +92,15 @@ let
         javaArgs = [ configEntry dropinsEntry ] ++ this.javaArgs;
     };
   
-    productWrapper = makeLauncherWrapper {
-        inherit (this) name base;
-        sors = productRooter;
-        eclipseIni = productEclipseIni;
-    };
-    
     productEclipseJava = makeEclipseJava {
+        inherit (this) name base;
         javaList = this.javaList;
     };
+    
+     productMavenConfig = makeMavenConfig { 
+        inherit (this) base;
+        javaList = this.javaList;
+     };
     
     productDeskItem = makeDeskItem {
         name = name;
@@ -103,14 +114,24 @@ let
     };
 
     productDeskFolder = deskFolder;
+
+    productWrapper = makeLauncherWrapper {
+        inherit (this) name base;
+        inherit (this) scriptList enviroList prefixList optionList;
+        sors = productRooter;
+        eclipseIni = productEclipseIni;
+        mavenConfig = productMavenConfig;
+    };
     
     productResult = buildEnv {
         inherit (this) name;
-        paths = [
+        paths = lib.flatten [
             productRooter 
             dropinsRooter 
             productConfig
             productEclipseIni
+            productEclipseJava
+            productMavenConfig.pathList
             productWrapper
 #            productDeskFolder
             productDeskItem
@@ -121,6 +142,6 @@ let
 in
 productResult // this // {
 #    desk = productDeskFolder;
-    java = productEclipseJava;
+#    java = productEclipseJava;
     exec = productWrapper.link;
 }

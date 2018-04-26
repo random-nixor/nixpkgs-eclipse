@@ -11,7 +11,9 @@ self: super:
 
 with self.eclipse; # expose "product", "dropin".
 
-{
+let
+    space = "/home/work/space/base";
+in {
 
     # Define custom base instance.
     # install command: nix-env -iA nixpkgs.eclipse-base
@@ -26,7 +28,8 @@ with self.eclipse; # expose "product", "dropin".
        execArgs = # launcher parameters override
        [
             "-clean" # force osgi bundle reload
-            "-data" "/home/work/space/base" # define workspace location
+            "-configuration" "${space}/data" # define configuration location
+            "-data"          "${space}/data" # define workspace location
        ];
        javaArgs = # java-jvm parameters override
        [
@@ -34,6 +37,7 @@ with self.eclipse; # expose "product", "dropin".
             "-Xverify:none" # seedup class loading
             "-XX:-OmitStackTraceInFastThrow" # expose full traces
             "-Djava.net.useSystemProxies=true" # inherit proxy from environment
+            "-Dfile.encoding=UTF-8" # use eclipse charset independent of environment
        ];
     };
 

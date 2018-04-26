@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+    
+  <!-- JDK toolchains @ Archlinux -->
+    
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <id>JavaSE-1.8</id>
+    </provides>
+    <configuration>
+      <jdkHome>/usr/lib/jvm/java-8-jdk</jdkHome>
+    </configuration>
+  </toolchain>
+
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <id>JavaSE-1.9</id>
+    </provides>
+    <configuration>
+      <jdkHome>/usr/lib/jvm/java-9-jdk</jdkHome>
+    </configuration>
+  </toolchain>
+  
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>1.8</version>
+      <vendor>oracle</vendor>
+    </provides>
+    <configuration>
+      <jdkHome>/usr/lib/jvm/java-8-jdk</jdkHome>
+    </configuration>
+  </toolchain>
+
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>1.9</version>
+      <vendor>oracle</vendor>
+    </provides>
+    <configuration>
+      <jdkHome>/usr/lib/jvm/java-9-jdk</jdkHome>
+    </configuration>
+  </toolchain>
+  
+</toolchains>

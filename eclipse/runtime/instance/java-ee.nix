@@ -1,7 +1,6 @@
 #
 # Web tools IDE
 #
-
 { instance }:
 
 let

@@ -37,7 +37,7 @@ rec {
     build-maven-bldhlp-0150
     build-maven-mvnarc-0172
     build-maven-mvndep-004
-    build-maven-scala-051
+#    build-maven-scala-051
     build-maven-egit-0150
     build-maven-subver-0130
     # build-maven-takariteam-???
@@ -50,7 +50,7 @@ rec {
     build-maven-bldhlp-0150
     build-maven-mvnarc-0172
     build-maven-mvndep-004
-    build-maven-scala-051
+#    build-maven-scala-051
     build-maven-egit-0150
     build-maven-subver-0130
     build-maven-takariteam-010

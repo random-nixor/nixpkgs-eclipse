@@ -22,8 +22,8 @@ rec {
 #        "-consoleLog"
     ];
     javaArgs = [
-        "-Xms6g"
-        "-Xmx6g"
+#        "-Xms6g"
+#        "-Xmx6g"
     ];
   };
   

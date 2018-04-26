@@ -19,7 +19,8 @@ rec {
         base-equinox-473a
         
         build-gradle-221
-        build-maven-190
+#        build-maven-190
+        build-maven-total-190
         
         ide-java-473a
         

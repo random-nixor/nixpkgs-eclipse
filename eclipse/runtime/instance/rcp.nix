@@ -5,7 +5,6 @@
 
 let
     drop-site = http://download.eclipse.org/technology/epp/downloads/release ;
-
 in
 rec {
 

@@ -9,7 +9,7 @@
 , buildEnv
 , makeWrapper
 
-, libXtst, glib, gtk2 ? null, gtk3 ? null # required runtime
+, libXtst, glib, gtk2, gtk3 # required runtime
 
 # optional 2D graphics via gtk/cairo # FIXME
 , freetype, fontconfig, libX11, libXrender, zlib
@@ -20,27 +20,24 @@
 
 , javaList ?  eclipse.option.optionJavaList
 
+, launcher
+
 }:
 
-with builtins;
-with stdenvNoCC.lib;
 with eclipse.option;
 
 let
 
+    lib = stdenvNoCC.lib;
+
     javaName = optionEclipseJDK.name;
 
-    javaVersion = 
-        if match ".*jdk-8.*"  javaName != null then 8 else
-        if match ".*jdk-9.*"  javaName != null then 9 else
-        if match ".*jdk-10.*" javaName != null then 10 else
-        abort "Unsupported java version: ${javaName}"
-    ;
+    javaVersion = launcher.javaVersion javaName; 
     
     javaLibrary = 
-        if javaVersion == 8  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; } else
-        if javaVersion == 9  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; }  else
-        if javaVersion == 10 then { gtk=gtk3; canb=libcanberra_gtk3; webk=webkitgtk220x; }  else
+        if javaVersion == "8"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; } else
+        if javaVersion == "9"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; }  else
+        if javaVersion == "10" then { gtk=gtk3; canb=libcanberra_gtk3; webk=webkitgtk220x; }  else
         abort "Unsupported java version: ${javaName}"
     ;
     
@@ -56,55 +53,68 @@ in
 
 rec {
 
-    wrapperCairoLibs = makeLibraryPath ([ 
+    wrapperCairoLibs = lib.makeLibraryPath ([ 
         freetype fontconfig libX11 libXrender zlib
     ]) ;
 
-    wrapperLibCanberra = optional (javaLibrary.canb != null) javaLibrary.canb;
+    wrapperLibCanberra = lib.optional (javaLibrary.canb != null) javaLibrary.canb;
     
-    wrapperGlibNetwork = optional (glib-networking != null) glib-networking;
+    wrapperGlibNetwork = lib.optional (glib-networking != null) glib-networking;
     
-    wrapperWebkitGTK = optional (javaLibrary.webk != null) javaLibrary.webk;
+    wrapperWebkitGTK = lib.optional (javaLibrary.webk != null) javaLibrary.webk;
     
-    wrapperLibraryPath = makeLibraryPath ([ 
-        glib javaLibrary.gtk libXtst 
+    wrapperLibraryPath = lib.makeLibraryPath ([ 
+#        glib javaLibrary.gtk libXtst 
+        glib gtk2 gtk3 libXtst 
     ] 
     ++ wrapperLibCanberra ++ wrapperGlibNetwork ++ wrapperWebkitGTK
     );
     
 #    wrapperJavaList = makeSearchPath "" javaList;
-#    wrapperLauncherPath = path: ''--launcher.ini \"${path}\"'' ;
     
     # generate wrapper arguments
     wrapperParams = {
-        flagsList ? [], variablesList ? []
+        scriptList ? [], enviroList ? [], prefixList ? [], optionList ? [],
     }: 
     let
-
-        flagsGens = filter (x: x != "") [
-        ];
-        
-        variablesGens = filter (x: x != "") [
-            (if optionSetFonts then (''FONTCONFIG_FILE "${fontsConf}"'') else "")
-        ];
-
-        funAdd = x: ''--add-flags "${x}"'';
-        funSet = x: ''--set ${x}'';
-
-        flagsText = concatMapStringsSep (" ") funAdd (flagsGens ++ flagsList);
-        variablesText = concatMapStringsSep (" ") funSet (variablesGens ++ variablesList);
-        
-    in
-    ''
-        --prefix PATH : "${optionEclipseJDK}/bin" \
-        --prefix LD_LIBRARY_PATH : "${wrapperLibraryPath}" \
-        ${flagsText} ${variablesText}
-    '';
+        scriptText = lib.concatMapStringsSep (" ") (x: ''--run "${x}"'') scriptList;
+        enviroText = lib.concatMapStringsSep (" ") (x: ''--set ${x}'') enviroList;
+        prefixText = lib.concatMapStringsSep (" ") (x: ''--prefix ${x}'') prefixList;
+        optionText = lib.concatMapStringsSep (" ") (x: ''--add-flags "${x}"'') optionList;
+    in 
+        ''${scriptText} ${enviroText} ${prefixText} ${optionText}'';
     
     # generate eclipse wrapper
-    makeLauncherWrapper = { sors, name, base, eclipseIni }:
+    makeLauncherWrapper = { 
+        sors, name, base,
+        java ? optionEclipseJDK,
+        eclipseIni ? null, mavenConfig ? null, 
+        scriptList ? [], enviroList ? [], prefixList ? [], optionList ? [],
+    }:
     let 
-        result = stdenvNoCC.mkDerivation {
+        hasBin = true;
+        hasLib = true;
+        hasIni = optionSetIni && eclipseIni != null;
+        hasMaven = optionSetMaven && mavenConfig != null;
+        hasFonts = optionSetFonts;
+        #
+        params = wrapperParams {
+            scriptList = scriptList
+            ;
+            enviroList = enviroList
+                ++ ( if hasMaven then [ ''MAVEN_CONFIG "${mavenConfig.options}"'' ] else [] )
+                ++ ( if hasFonts then [ ''FONTCONFIG_FILE "${fontsConf}"'' ] else [] )
+            ;
+            prefixList = prefixList
+                ++ ( if hasBin then [ ''PATH : "${java}/bin"'' ] else [] )                
+                ++ ( if hasLib then [ ''LD_LIBRARY_PATH : "${wrapperLibraryPath}"'' ] else [] )                
+            ;
+            optionList = optionList
+                ++ ( if hasIni then [ ''--launcher.ini \"${eclipseIni.path}\"''] else [] )
+            ;
+        };
+        #
+        wrapper = stdenvNoCC.mkDerivation {
             inherit base;
             name = "wrapper-${name}";
             link = "bin/${name}";
@@ -114,15 +124,12 @@ rec {
             buildPhase = ''
                exec=${sors.base}/$path
                link=$out/$link
-               makeWrapper "$exec" "$link" ${wrapperParams {
-                   flagsList = [ ''--launcher.ini \"${eclipseIni.path}\"'' ];
-               }}
+               makeWrapper "$exec" "$link" ${params}
             '';
         };
-    in 
-    result // {
-       base = with result; "${out}/${base}";
-       link = with result; "${out}/${link}";
+    in wrapper // {
+       base = with wrapper; "${out}/${base}";
+       link = with wrapper; "${out}/${link}";
     };
 
 }

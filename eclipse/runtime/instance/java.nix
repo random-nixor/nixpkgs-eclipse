@@ -1,7 +1,6 @@
 #
 # Java IDE
 #
-
 { instance }:
 
 let

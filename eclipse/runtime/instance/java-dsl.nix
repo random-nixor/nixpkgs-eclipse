@@ -1,7 +1,6 @@
 #
 # Xtext IDE
 #
-
 { instance }:
 
 let

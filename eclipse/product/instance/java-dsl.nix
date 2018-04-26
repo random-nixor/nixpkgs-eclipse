@@ -25,8 +25,8 @@ rec {
 #        "-clean"
     ];
     javaArgs = [
-        "-Xms2g"
-        "-Xmx2g"
+#        "-Xms2g"
+#        "-Xmx2g"
 #        "-Dosgi.checkConfiguration=true"
     ];
   };

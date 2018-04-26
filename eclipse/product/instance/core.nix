@@ -19,8 +19,8 @@ rec {
     execArgs = [
     ];
     javaArgs = [
-        "-Xms1g"
-        "-Xmx1g"
+#        "-Xms1g"
+#        "-Xmx1g"
     ];
   };
   
