@@ -102,11 +102,17 @@ rec {
             scriptList = scriptList
             ;
             enviroList = enviroList
+                # used by maven wrapper
                 ++ ( if hasMaven then [ ''MAVEN_CONFIG "${mavenConfig.options}"'' ] else [] )
+                # FIXME
+                ++ ( if hasMaven then [ ''M2_HOME "${mavenConfig.folder}"'' ] else [] )
+                #
                 ++ ( if hasFonts then [ ''FONTCONFIG_FILE "${fontsConf}"'' ] else [] )
             ;
             prefixList = prefixList
-                ++ ( if hasBin then [ ''PATH : "${java}/bin"'' ] else [] )                
+                # jdk on search path
+                ++ ( if hasBin then [ ''PATH : "${java}/bin"'' ] else [] )
+                # required swt dependencies                
                 ++ ( if hasLib then [ ''LD_LIBRARY_PATH : "${wrapperLibraryPath}"'' ] else [] )                
             ;
             optionList = optionList

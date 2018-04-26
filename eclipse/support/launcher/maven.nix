@@ -2,6 +2,7 @@
 # Provide maven config maker
 #
 { stdenvNoCC
+, pkgs
 , lib
 , eclipse
 , runCommand 
@@ -60,35 +61,53 @@ let
     
     makeMetaList = javaList: map makeJavaMeta javaList;
 
-    makeToolchainsXml = {  javaList, base, path, file ? "toolchains.xml" }:
+    makeToolchains = {  javaList, base, path, file ? "toolchains.xml" }:
     let 
         inherit base path file;
         metaList = makeMetaList javaList;
         metaText = (mavenToolchainList metaList);
-        result = runCommand "maven-toolchains.xml" {} ''
-            baseDir="$out/${base}/${path}"
+        toolchains = runCommand "maven-toolchains" {} ''
+            baseDir="$out/${base}/${path}/conf"
             toolFile=$baseDir/${file}
             mkdir -p $baseDir 
             echo "${metaText}" > $toolFile 
         '';
-    in result // {
-        base = with result; "${out}/${base}";
-        path = with result; "${out}/${base}${path}";
-        file = with result;  "${out}/${base}/${path}/${file}"; 
+    in toolchains // {
+        base = with toolchains; "${out}/${base}";
+        path = with toolchains; "${out}/${base}${path}";
+        file = with toolchains; "${out}/${base}/${path}/${file}"; 
     };
+    
+    homeDir = builtins.getEnv "HOME";
+    
+    mavenUserHome = "${homeDir}/.m2";
+    
+    makeMavenLinks = { base, path }:
+    let
+        mavenLinks = runCommand "maven-links" {} ''
+            baseDir="$out/${base}/${path}"
+            mkdir -p $baseDir 
+#            ln -s ${mavenUserHome}/repository $baseDir/repository
+#            ln -s ${mavenUserHome}/settings.xml $baseDir/settings.xml
+        '';
+    in mavenLinks;
 
 in {
 
-    # generate maven configuraton files
+    # generate maven configuraton folder
     makeMavenConfig = {  javaList, base, path ? optionEclipseMaven } :
     let
-        toolchains = makeToolchainsXml  { inherit javaList base path; };
-    in { 
-        inherit toolchains;
+        mavenLinks = makeMavenLinks { inherit base path; };
+        toolchains = makeToolchains { inherit javaList base path; };
+        mavenConfig = pkgs.buildEnv {
+            name = "maven-config";
+            paths = [ mavenLinks toolchains ];
+            postBuild = ''
+            '';
+        };
+    in mavenConfig // {
+        folder = with mavenConfig; "${out}/${base}/${path}";
         options = "--toolchains ${toolchains.file}";
-        pathList = [
-            toolchains
-        ];
     };
     
 }

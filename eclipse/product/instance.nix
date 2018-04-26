@@ -131,7 +131,7 @@ let
             productConfig
             productEclipseIni
             productEclipseJava
-            productMavenConfig.pathList
+            productMavenConfig
             productWrapper
 #            productDeskFolder
             productDeskItem
