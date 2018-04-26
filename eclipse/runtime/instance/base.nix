@@ -1,8 +1,7 @@
-#    Platform Runtime Binary
-#    These drops contain only the Eclipse Platform with user documentation 
-#   and no source and no programmer documentation. 
-#    The Java development tools and Plug-in Development Environment are NOT included. 
-
+# Platform Runtime Binary
+# These drops contain only the Eclipse Platform with user documentation 
+# and no source and no programmer documentation. 
+# The Java development tools and Plug-in Development Environment are NOT included. 
 { instance }:
 
 let

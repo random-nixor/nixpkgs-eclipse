@@ -80,7 +80,7 @@ rec {
         ];
         targetText = concatStringsSep "\n" targetList;
         
-        result = stdenvNoCC.mkDerivation {
+        eclipseIni = stdenvNoCC.mkDerivation {
             inherit base path;
             name = "eclipse-ini-${name}";
             phases = [ "buildPhase" ];
@@ -96,9 +96,9 @@ rec {
             '';
         };
     in 
-    result // {
-        base = with result; "${out}/${base}";
-        path = with result; "${out}/${base}/${path}"; 
+    eclipseIni // {
+        base = with eclipseIni; "${out}/${base}";
+        path = with eclipseIni; "${out}/${base}/${path}"; 
     };
          
 }

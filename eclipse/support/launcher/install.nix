@@ -17,8 +17,9 @@ in
 rec {
 
     # provide companion jdks/jres at fixed public paths
-    makeEclipseJava = { javaList ? optionJavaList, javaBase ? optionEclipseJava }:
+    makeEclipseJava = { name, base, javaList, path ? optionEclipseJava }:
     let
+        javaBase = "${base}/${path}";
         rootFun = javaPack: makeJavaRooter { inherit javaPack javaBase; };
         rootList = map rootFun javaList;
         result = buildEnv {
@@ -69,18 +70,21 @@ rec {
     };
     
     # assemble eclipse configuration folder
-    makeConfigFolder = { sors, name, base, path ? optionLauncherCfg, javaList ? optionJavaList }:
+    makeConfigFolder = { 
+        sors, name, base, 
+        path ? optionLauncherCfg, 
+        javaList 
+    }:
     let
         root = "${base}/${path}";
         settings = makeDotSettings { inherit name root javaList; };
-        result = buildEnv {
+        configFolder = buildEnv {
             name = "config-${name}";
             paths = flatten [ sors settings ];
         };
-    in
-    result // {
-        base = with result; "${out}/${base}";
-        path = with result; "${out}/${base}/${path}";
+    in configFolder // {
+        base = with configFolder; "${out}/${base}";
+        path = with configFolder; "${out}/${base}/${path}";
     };
 
     # assemble eclipse dropins folder
@@ -91,15 +95,14 @@ rec {
         dropinsDepsList = flatten(dropinsDeps);
         installDropins = unique (dropinsList ++ dropinsDepsList);
         installDropinsPaths = filter (x: x ? isEclipseDropin) (installDropins);
-        result = buildEnv {
+        dropinsFolder = buildEnv {
             name = "dropins-${name}";
             paths = installDropinsPaths;
             postBuild = ''
                 mkdir -p $out/${optionDropinsDir}
             '';
         };
-    in
-    result // {
+    in dropinsFolder // {
     };
 
     # download and adapt eclipse package

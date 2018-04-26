@@ -25,7 +25,7 @@ rec {
     name = "tool-linux-621";
     src = fetchzip {
         stripRoot=false;
-        url = "http://download.eclipse.org/linuxtools/linuxtool-6.2.1.zip" ;
+        url = "http://download.eclipse.org/linuxtools/linuxtools-6.2.1.zip" ;
         sha256 = "1l7pa2833i4r855lpcd3pibygshd0ss4rppvyrpl2cdyg6f630gf";
     };
   };

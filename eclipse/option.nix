@@ -19,7 +19,7 @@ in rec
         requireFile = requireFetch;
     });
 
-    # jdk used to run eclipse
+    # jdk used to run eclipse itself
     optionEclipseJDK = oraclejdk10auto;
     
     # jres/jdks available for eclipse
@@ -32,9 +32,13 @@ in rec
     optionEclipseDesk = "eclipse/desk";
     
     # public path for companion jres/jdks 
-    optionEclipseJava = "eclipse/java";
+    optionEclipseJava = "java";
+    # public path for companion maven 
+    optionEclipseMaven = "maven";
     
+    optionSetIni = true;
     optionSetFonts = true;
+    optionSetMaven = true;
     
     optionUseName = true;
     optionUseSplash = true; 

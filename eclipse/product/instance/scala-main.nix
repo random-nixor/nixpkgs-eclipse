@@ -23,8 +23,8 @@ rec {
 #        "-consoleLog"
     ];
     javaArgs = [
-        "-Xms4g"
-        "-Xmx4g"
+#        "-Xms4g"
+#        "-Xmx4g"
 #        "-Dosgi.framework.extensions=org.eclipse.equinox.weaving.hook"
     ];
   };

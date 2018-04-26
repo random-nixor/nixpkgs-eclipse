@@ -1,7 +1,6 @@
 #
 # C/C++ IDE
 #
-
 { instance }:
 
 let
