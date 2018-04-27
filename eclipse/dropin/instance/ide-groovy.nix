@@ -4,6 +4,7 @@
 { instance, fetchsite }:
 
 let 
+    # NOTE: use build stamp regex selector
     meta = {
         homepage = https://github.com/groovy/groovy-eclipse ;
         description = "Eclipse Groovy Development Tools";
@@ -18,7 +19,7 @@ rec {
     src = fetchsite {
             url = "http://dist.springsource.org/release/GRECLIPSE/e4.7" ;
             sha256 = "10ic59s8hkb18yxkvxdj21v3x1xwcryn34mrfikf8sijnzd8z2sg";
-            regexInclude = "(.+)201801041714(.+)[.]jar" ;
+            regexInclude = "(.+)201801041714(.*)[.]jar" ;
         };
     };
 
@@ -27,8 +28,8 @@ rec {
     name = "ide-groovy-300";
     src = fetchsite {
             url = "http://dist.springsource.org/snapshot/GRECLIPSE/e4.7" ;
-            sha256 = "0jgyvbbb3y2p79wdfvhn3qikjzjxksjfy7fyl8ar2ncwcqwa5y0l";
-            regexInclude = "(.+)3[.]0[.]0(.+)[.]jar" ;
+            sha256 = "0jwlwirx9ghz9402pykrxfk1hr4p6gjfsdz0pwqgpwk0a6gfw3jf";
+            regexInclude = "(.+)201804221531(.*)[.]jar" ;
         };
     };
 

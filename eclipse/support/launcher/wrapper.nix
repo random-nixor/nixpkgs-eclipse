@@ -4,15 +4,12 @@
 { stdenvNoCC
 , eclipse
 
-, pkgs
-
 , buildEnv
 , makeWrapper
 
 , libXtst, glib, gtk2, gtk3 # required runtime
 
-# optional 2D graphics via gtk/cairo # FIXME
-, freetype, fontconfig, libX11, libXrender, zlib
+, freetype, fontconfig, fontconfig-penultimate, libX11, libXrender, zlib # FIXME optional?
 
 , webkitgtk220x ? null # optional browser support (gtk3)
 , glib-networking ? null # optional browser ssl/tls support
@@ -41,13 +38,19 @@ let
         abort "Unsupported java version: ${javaName}"
     ;
     
-#    fontsConf = pkgs.makeFontsConf {
-#      fontDirectories = [
-#        pkgs.ubuntu_font_family
-#      ];
-#    };
-
-    fontsConf = pkgs.fontconfig.out + "/etc/fonts/fonts.conf";
+    # fonts config using profile, i.e.:
+    # <dir>~/.nix-profile/share/fonts</dir>
+    fontsEnv = buildEnv {
+        name = "fonts-env";
+        paths = [
+            fontconfig.out # use /etc
+            fontconfig-penultimate
+        ];
+        ignoreCollisions = true;
+    } // {
+        path = fontsEnv + "/etc/fonts";
+	    file = fontsEnv + "/etc/fonts/fonts.conf";
+    };
     
 in
 
@@ -70,7 +73,9 @@ rec {
     ++ wrapperLibCanberra ++ wrapperGlibNetwork ++ wrapperWebkitGTK
     );
     
-#    wrapperJavaList = makeSearchPath "" javaList;
+    wrapperBinaryPath = lib.makeSearchPath "bin" [
+        
+    ];
     
     # generate wrapper arguments
     wrapperParams = {
@@ -99,24 +104,33 @@ rec {
         hasFonts = optionSetFonts;
         #
         params = wrapperParams {
-            scriptList = scriptList
-            ;
-            enviroList = enviroList
-                # used by maven wrapper
-                ++ ( if hasMaven then [ ''MAVEN_CONFIG "${mavenConfig.options}"'' ] else [] )
-                # FIXME
-                ++ ( if hasMaven then [ ''M2_HOME "${mavenConfig.folder}"'' ] else [] )
+            scriptList = []
                 #
-                ++ ( if hasFonts then [ ''FONTCONFIG_FILE "${fontsConf}"'' ] else [] )
+                ++ scriptList # keep last
             ;
-            prefixList = prefixList
-                # jdk on search path
+            enviroList = []
+                # use stable fonts configuration
+                ++ ( if hasFonts then [ ''FONTCONFIG_FILE "${fontsEnv.file}"'' ] else [] )
+                ++ ( if hasFonts then [ ''FONTCONFIG_PATH "${fontsEnv.path}"'' ] else [] )
+                # maven wrapper configuration
+                ++ ( if hasMaven then [ ''MAVEN_CONFIG "${mavenConfig.options}"'' ] else [] )
+                # FIXME user.home vs maven.home setup
+                ++ ( if hasMaven then [ ''M2_HOME "${mavenConfig.folder}"'' ] else [] )
+                ++ enviroList # keep last
+            ;
+            prefixList = []
+                # use configured jdk
                 ++ ( if hasBin then [ ''PATH : "${java}/bin"'' ] else [] )
                 # required swt dependencies                
                 ++ ( if hasLib then [ ''LD_LIBRARY_PATH : "${wrapperLibraryPath}"'' ] else [] )                
+                # use stable fonts applications
+                ++ ( if hasFonts then [ ''PATH : "${fontconfig}/bin"'' ] else [] )
+                ++ prefixList # keep last
             ;
-            optionList = optionList
+            optionList = []
+                # inject startup settings
                 ++ ( if hasIni then [ ''--launcher.ini \"${eclipseIni.path}\"''] else [] )
+                ++ optionList # keep last
             ;
         };
         #

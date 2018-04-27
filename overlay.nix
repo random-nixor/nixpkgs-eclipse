@@ -1,6 +1,7 @@
 #
 # Overlay repository entry. 
-# Uses dedicated overlay module folder.
+# https://nixos.org/nixpkgs/manual/#chap-overlays
+# https://blog.flyingcircus.io/2017/11/07/nixos-the-dos-and-donts-of-nixpkgs-overlays/
 # 
 self: super: 
 
