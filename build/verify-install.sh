@@ -23,7 +23,7 @@ cd $root
 
 #nix-env -f default.nix -i -A eclipse.dropin.build-maven-190
 
-nix-env -f default.nix -i -A eclipse.dropin.ide-xmind-87
+#nix-env -f default.nix -i -A eclipse.dropin.ide-xmind-87
 
 # jars list
 #nix-env -f default.nix -i -A eclipse.dropin.build-maven-log-172
@@ -34,9 +34,9 @@ nix-env -f default.nix -i -A eclipse.dropin.ide-xmind-87
 #nix-env -f default.nix -i -A eclipse.dropin.ide-pydev-632
 
 # non-ssl fetchsite
-#nix-env -f default.nix -i -A eclipse.dropin.build-gradle-221
+#nix-env -f default.nix -i -A eclipse.dropin.build-gradle-xxx
 
-
+nix-env -f default.nix -i -A eclipse.dropin.ide-groovy-300
 
 # dependency report
 # nix-store -q --tree store path or .drv file

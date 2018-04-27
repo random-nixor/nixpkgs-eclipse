@@ -49,7 +49,8 @@ rec {
         
         base=$(pwd)
 
-        bundleRegex="Eclipse-BundleShape:\\s*dir"
+        shapeRegexDir="Eclipse-BundleShape:([[:blank:]]*)dir"
+        shapeRegexJar="Eclipse-BundleShape:([[:blank:]]*)jar"
         
         cd $base/features
         for feature in *.jar; do
@@ -65,7 +66,7 @@ rec {
         cd $base/plugins
         for plugin in *.jar ; do
           manifest=$(unzip -q -p $plugin META-INF/MANIFEST.MF)
-          if [[ $manifest =~ $bundleRegex ]] ; then
+          if [[ $manifest =~ $shapeRegexDir ]] ; then
             pluginName=''${plugin%.jar}
             pluginUnzip=$pluginsOut/$pluginName
             mkdir $pluginUnzip

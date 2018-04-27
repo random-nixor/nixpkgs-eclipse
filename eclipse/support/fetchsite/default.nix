@@ -14,7 +14,7 @@
 , name ? "source"
 , meta ? {}
 , passthru ? {}
-, verbose ? false # FIXME make impure
+, verbose ? true # FIXME make impure
   # drop https_proxy to avoid java trust store setup
 , impureEnvVars ? [ "http_proxy" "ftp_proxy" "no_proxy" ]
 , showBuildStats ? true
@@ -44,6 +44,8 @@ let
 
   application = "org.eclipse.equinox.p2.artifact.repository.mirrorApplication";
   configuration = "$TMPDIR/eclipse/configuration";
+  instance = "$TMPDIR/eclipse/instance";
+  
   source = url;
   destination = "$TMPDIR/site";
   
@@ -56,8 +58,9 @@ let
   
   execArgsList = [
     "-nosplash"
-    "-configuration" configuration
     "-application" application
+    "-configuration" configuration
+    "-data" instance
     "-source" source
     "-destination" destination
     "-raw"

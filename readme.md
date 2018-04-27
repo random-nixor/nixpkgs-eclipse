@@ -34,17 +34,17 @@ Usage:
 * enable [unfree for oracle][wiki_unfree]
 * cleanup `$HOME/.eclipse/${product}` if any
 * invoke provided [overlay.sh](overlay.sh) to activate overlays
-* append/change products, following [examples](.build/demo) 
+* append/change products, following [examples](build/demo) 
 
 Notes:
-* [build-all.sh](.build/build-all.sh) from scratch (behind cache/proxy)
+* [build-all.sh](build/build-all.sh) from scratch (behind cache/proxy)
   takes some 10 minutes and 10 GB of disk
 
 [nixos_eclipse]: https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/editors/eclipse
 
 [wiki_unfree]: https://nixos.wiki/wiki/FAQ/How_can_I_install_a_proprietary_or_unfree_package%3F
 
-[splash_icon]: .build/repo/splash.png
+[splash_icon]: build/repo/splash.png
 [splash_link]: eclipse
 
 [licence_icon]: https://img.shields.io/github/license/random-nixor/nixpkgs-eclipse.svg?label=License
