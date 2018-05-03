@@ -6,19 +6,22 @@
 , buildEnv
 }:
 
-# instance function
-{ name # unique runtime name 
-, meta ? {} # runtime origin descriptor 
-, packages ? {} # mapping: system -> download
-}:
-
 with eclipse.option;
 with eclipse.launcher;
+
+# instance function
+{ name # unique runtime name 
+, java ? oraclejdk8auto # eclipse host jdk
+, meta ? {} # runtime origin descriptor 
+, layout ? {}  # distro root dir layout
+, packages ? {} # mapping: system -> download
+}:
 
 let
 
     this = {
-        meta = meta;
+        inherit meta java;
+        layout = optionLauncherLayout // layout;
         base = optionRuntimeFolder name;
         name = optionRuntimePackage name;
     };
@@ -35,21 +38,22 @@ let
     runtimeInstall = makePackageInstall {
         package = package;
         name = packageName;
+        layout = this.layout;
     };
 
     runtimeRooter = makeFolderRooter {
         inherit (this) name base;
         sors = runtimeInstall;
-        path = "eclipse";
+        path = this.layout.root;
     };
 
     runtimeEclipseIni = makeEclipseIni {
-        inherit (this) name base;
+        inherit (this) name base java layout;
         sors = runtimeRooter;
     };
 
     runtimeWrapper = makeLauncherWrapper {
-        inherit (this) name base;
+        inherit (this) name base java layout;
         sors = runtimeRooter;
         eclipseIni = runtimeEclipseIni;
     };
@@ -66,7 +70,6 @@ let
         };
     };
     
-in
-runtimeResult // this // {
+in runtimeResult // this // {
     exec = runtimeWrapper.link;
 }

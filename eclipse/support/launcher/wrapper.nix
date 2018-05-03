@@ -13,7 +13,7 @@
 
 , webkitgtk220x ? null # optional browser support (gtk3)
 , glib-networking ? null # optional browser ssl/tls support
-, libcanberra_gtk2 ? null, libcanberra_gtk3 ? null  # optional sound system support
+, libcanberra ? null  # optional sound system support
 
 , javaList ?  eclipse.option.optionJavaList
 
@@ -27,16 +27,16 @@ let
 
     lib = stdenvNoCC.lib;
 
-    javaName = optionEclipseJDK.name;
+#    javaName = optionEclipseJDK.name;
 
-    javaVersion = launcher.javaVersion javaName; 
+#    javaVersion = launcher.javaVersion javaName; 
     
-    javaLibrary = 
-        if javaVersion == "8"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; } else
-        if javaVersion == "9"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; }  else
-        if javaVersion == "10" then { gtk=gtk3; canb=libcanberra_gtk3; webk=webkitgtk220x; }  else
-        abort "Unsupported java version: ${javaName}"
-    ;
+#    javaLibrary = javaVersion: 
+#        if javaVersion == "8"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; } else
+#        if javaVersion == "9"  then { gtk=gtk2; canb=libcanberra_gtk2; webk=null; }  else
+#        if javaVersion == "10" then { gtk=gtk3; canb=libcanberra_gtk3; webk=webkitgtk220x; }  else
+#        abort "Unsupported java version: ${javaName}"
+#    ;
     
     # fonts config using profile, i.e.:
     # <dir>~/.nix-profile/share/fonts</dir>
@@ -49,7 +49,7 @@ let
         ignoreCollisions = true;
     } // {
         path = fontsEnv + "/etc/fonts";
-	    file = fontsEnv + "/etc/fonts/fonts.conf";
+        file = fontsEnv + "/etc/fonts/fonts.conf";
     };
     
 in
@@ -60,21 +60,12 @@ rec {
         freetype fontconfig libX11 libXrender zlib
     ]) ;
 
-    wrapperLibCanberra = lib.optional (javaLibrary.canb != null) javaLibrary.canb;
-    
-    wrapperGlibNetwork = lib.optional (glib-networking != null) glib-networking;
-    
-    wrapperWebkitGTK = lib.optional (javaLibrary.webk != null) javaLibrary.webk;
-    
     wrapperLibraryPath = lib.makeLibraryPath ([ 
-#        glib javaLibrary.gtk libXtst 
         glib gtk2 gtk3 libXtst 
-    ] 
-    ++ wrapperLibCanberra ++ wrapperGlibNetwork ++ wrapperWebkitGTK
-    );
+        glib-networking webkitgtk220x libcanberra
+    ]);
     
     wrapperBinaryPath = lib.makeSearchPath "bin" [
-        
     ];
     
     # generate wrapper arguments
@@ -91,8 +82,7 @@ rec {
     
     # generate eclipse wrapper
     makeLauncherWrapper = { 
-        sors, name, base,
-        java ? optionEclipseJDK,
+        sors, name, base, java, layout,
         eclipseIni ? null, mavenConfig ? null, 
         scriptList ? [], enviroList ? [], prefixList ? [], optionList ? [],
     }:
@@ -134,16 +124,15 @@ rec {
             ;
         };
         #
+        exec = "${layout.root}/${layout.exec}";
+        link = "bin/${name}";
         wrapper = stdenvNoCC.mkDerivation {
-            inherit base;
             name = "wrapper-${name}";
-            link = "bin/${name}";
-            path = optionLauncherExe;
             buildInputs = [ makeWrapper ];
             phases = [ "buildPhase" ];
             buildPhase = ''
-               exec=${sors.base}/$path
-               link=$out/$link
+               exec=${sors.base}/${exec}
+               link=$out/${link}
                makeWrapper "$exec" "$link" ${params}
             '';
         };

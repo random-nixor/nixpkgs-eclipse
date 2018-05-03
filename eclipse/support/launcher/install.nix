@@ -6,6 +6,7 @@
 , buildEnv
 , eclipse
 , launcher
+, file
 }:
 
 with launcher;
@@ -71,11 +72,11 @@ rec {
     
     # assemble eclipse configuration folder
     makeConfigFolder = { 
-        sors, name, base, 
-        path ? optionLauncherCfg, 
+        sors, name, base, layout, 
         javaList 
     }:
     let
+        path = "${layout.root}/${layout.conf}";
         root = "${base}/${path}";
         settings = makeDotSettings { inherit name root javaList; };
         configFolder = buildEnv {
@@ -106,25 +107,26 @@ rec {
     };
 
     # download and adapt eclipse package
-    makePackageInstall = { package, name }:
+    makePackageInstall = { package, name, layout }:
     let
     
         source = fetchurl {
             inherit (package) url sha1 sha256 sha512;
         };
     
-        result = stdenvNoCC.mkDerivation {
+        install = stdenvNoCC.mkDerivation {
             src = source;
             name = "install-${name}";
             phases = [ "unpackPhase" "buildPhase" ];
+            buildInputs = [ file ];
             buildPhase = ''
-              
+            
                 baseDir="$out"
-                executable="$baseDir/${optionLauncherExe}"
-                libraryCairo=$baseDir/${optionLauncherLibCairo}
+                executable=$baseDir/${layout.root}/${layout.exec}
+                libraryCairo=$baseDir/${layout.root}/${layout.libCairo}
               
                 mkdir -p $baseDir
-                tar xfz $src -C $baseDir
+                tar xfz $src --directory=$baseDir --strip=0
             
                 interpreter=$(echo ${stdenvNoCC.glibc.out}/lib/ld-linux*.so.2)
                 
@@ -132,6 +134,7 @@ rec {
                     patchelf --set-interpreter $interpreter $executable
                 else
                     echo "Missing executable: $executable"
+                    ls -las $out
                     exit 1
                 fi
             
@@ -140,12 +143,20 @@ rec {
                 else
                     echo "Missing libraryCairo: $libraryCairo"
                 fi
-                
+
+                # FIXME generalize
+                echo "Updating native ..."
+                nativeRegex="*native*"
+                find "$out" -path "$nativeRegex" | 
+                xargs -I % file -i "%" | 
+                grep "application/x-executable" |
+                sed -r 's/([^:]+):.+/\1/' |
+                xargs -I % chmod +x "%" || true
+			    
             '';
         };
         
-    in
-    result // {
+    in install // {
     };
 
 }

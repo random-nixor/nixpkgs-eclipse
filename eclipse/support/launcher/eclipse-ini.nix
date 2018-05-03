@@ -15,7 +15,7 @@ let
 
     # exec
     iniName = name: [ "-name" name ];
-    iniSplashPath = name: [ "-showsplash" (makeSplash name) ];
+    iniSplashPath = name: java: [ "-showsplash" (makeSplash name java) ];
     iniConfigPath = name: [ "-configuration" "@user.home/.eclipse/${name}/configuration" ];
     iniInstancePath = name: [ "-data" "@user.home/.eclipse/${name}/instance" ];
     iniInstallPath = path: [ "-install" path ];
@@ -29,12 +29,15 @@ in
 rec {
 
     # produce eclipse.ini by merging base prototype with new arguments 
-    makeEclipseIni = { sors, name, base, path ? optionLauncherIni, execArgs ? [], javaArgs ? [] }:
+    makeEclipseIni = { 
+        sors, name, base, java, layout,
+        execArgs ? [], javaArgs ? [] 
+    }:
     let
     
         execGens = []
             ++ (if optionUseName then (iniName name) else [])
-            ++ (if optionUseSplash then (iniSplashPath name) else [])
+            ++ (if optionUseSplash then (iniSplashPath name java) else [])
             ++ (if optionUseConfigPath then (iniConfigPath name) else [])
             ++ (if optionUseInstancePath then (iniInstancePath name) else [])
         ;
@@ -46,7 +49,9 @@ rec {
     
         vmargs = "-vmargs\n";
 
-        sourceIni="${sors.base}/${path}";
+        initPath = "${layout.root}/${layout.init}";
+
+        sourceIni="${sors.base}/${initPath}";
         sourceText = readFile sourceIni;
         sourceList = splitString vmargs sourceText;
         sourceExec = head sourceList;
@@ -81,24 +86,22 @@ rec {
         targetText = concatStringsSep "\n" targetList;
         
         eclipseIni = stdenvNoCC.mkDerivation {
-            inherit base path;
             name = "eclipse-ini-${name}";
             phases = [ "buildPhase" ];
             meta = {
                 priority = 0;
             };
             buildPhase = ''
-                targetDir="$out/$base"
-                targetIni="$targetDir/$path"
+                targetDir="$out/${base}"
+                targetIni="$targetDir/${initPath}"
                 targetRoot=$(dirname $targetIni)
                 mkdir -p "$targetRoot"
                 echo "${targetText}" > "$targetIni"
             '';
         };
-    in 
-    eclipseIni // {
+    in eclipseIni // {
         base = with eclipseIni; "${out}/${base}";
-        path = with eclipseIni; "${out}/${base}/${path}"; 
+        path = with eclipseIni; "${out}/${base}/${initPath}"; 
     };
          
 }

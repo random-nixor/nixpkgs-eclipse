@@ -14,6 +14,7 @@ with eclipse.launcher;
 { name # unique product name
 , meta ? {} # product origin descriptor 
 , icon ? null # desktop icon template
+, java ? null # eclipse host jdk
 , runtime ? null # base binary of a product
 , dropins ? [] # product dependencies
 , execArgs ? [] # eclipse command line options 
@@ -24,6 +25,7 @@ with eclipse.launcher;
 , prefixList ? [] # pass to wrapper
 , optionList ? [] # pass to wrapper
 , super ? { # product type inheritance
+        java = optionEclipseJDK;
         icon = abort "Missing 'super.icon'";
         runtime = abort "Missing 'super.runtime'";
         dropins = [];
@@ -48,6 +50,8 @@ let
         base = optionProductFolder name;
         name = optionProductPackage name;
         icon = if icon != null then icon else super.icon;
+        java = if java != null then java else super.java;
+        layout = this.runtime.layout;
         runtime = if runtime != null then runtime else super.runtime; 
         dropins = super.dropins ++ dropins;
         javaList = super.javaList ++ javaList;
@@ -61,23 +65,23 @@ let
 
     dropinsInstall = makeDropinsFolder {
         inherit (this) name;
-        dropins = this.dropins;
+        dropins = this.dropins;  # FIXME layout
     };
     
     dropinsRooter = makeFolderRooter {
         inherit (this) name base;
         sors = dropinsInstall;
-        path = optionDropinsDir;
+        path = optionDropinsDir; # FIXME layout
     };
 
     productRooter = makeFolderRooter {
         inherit (this) name base;
         sors = this.runtime.install;
-        path = "eclipse"; # XXX
+        path = this.layout.root;
     };
 
     productConfig = makeConfigFolder {
-        inherit (this) name base;
+        inherit (this) name base layout;
         sors = productRooter;
         javaList = this.javaList;
     };
@@ -86,7 +90,7 @@ let
     dropinsEntry = "-D${optionDropinsProperty}=${dropinsRooter.path}";
 
     productEclipseIni = makeEclipseIni {
-        inherit (this) name base;
+        inherit (this) name base java layout;
         sors = productRooter;
         execArgs = [ ] ++ this.execArgs;
         javaArgs = [ configEntry dropinsEntry ] ++ this.javaArgs;
@@ -116,7 +120,7 @@ let
     productDeskFolder = deskFolder;
 
     productWrapper = makeLauncherWrapper {
-        inherit (this) name base;
+        inherit (this) name base java layout;
         inherit (this) scriptList enviroList prefixList optionList;
         sors = productRooter;
         eclipseIni = productEclipseIni;
@@ -139,8 +143,7 @@ let
         ];
     };
   
-in
-productResult // this // {
+in productResult // this // {
 #    desk = productDeskFolder;
 #    java = productEclipseJava;
     exec = productWrapper.link;

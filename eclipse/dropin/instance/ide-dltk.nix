@@ -69,7 +69,7 @@ rec {
         deps = ide-dltk-deps-5;
     };
     
-    ### 582
+    ### 582 missing drop site
     
 #    ide-dltk-582 = instance.repoDir {
 #        inherit meta;

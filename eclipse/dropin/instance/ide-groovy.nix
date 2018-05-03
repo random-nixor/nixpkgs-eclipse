@@ -28,8 +28,8 @@ rec {
     name = "ide-groovy-300";
     src = fetchsite {
             url = "http://dist.springsource.org/snapshot/GRECLIPSE/e4.7" ;
-            sha256 = "0jwlwirx9ghz9402pykrxfk1hr4p6gjfsdz0pwqgpwk0a6gfw3jf";
-            regexInclude = "(.+)201804221531(.*)[.]jar" ;
+            sha256 = "1m1fs7kjh0j7zc3vwfa2qnjja0qkv2nxq0jjx1b6cppm1zl3s50k";
+            regexInclude = "(.+)201804302107(.*)[.]jar" ;
         };
     };
 

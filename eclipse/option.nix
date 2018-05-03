@@ -56,10 +56,16 @@ in rec
     # https://help.eclipse.org/oxygen/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Freference%2Fmisc%2Fruntime-options.html
     optionConfigProperty = "osgi.sharedConfiguration.area";
 
-    optionLauncherCfg = "eclipse/configuration";
-    optionLauncherIni = "eclipse/eclipse.ini";
-    optionLauncherExe = "eclipse/eclipse";
-    optionLauncherLibCairo = "eclipse/libcairo-swt.so";
+    optionLauncherLayout = {
+	    root = "eclipse"; # root folder inside runtime distribution
+	    conf = "configuration"; # configuration folder inside root
+	    init = "eclipse.ini"; # startup settings inside root
+	    exec = "eclipse"; # executable inside root
+	    libCairo = "libcairo-swt.so"; # library inside root
+        dropins = "dropins"; 
+        features = "features"; 
+        plugins = "plugins"; 
+    };
 
     optionArkonName = "eclipse";
     optionDropinName = "${optionArkonName}-dropin";

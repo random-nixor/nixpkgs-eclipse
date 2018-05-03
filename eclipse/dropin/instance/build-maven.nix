@@ -60,6 +60,7 @@ rec {
     build-maven-log-172 # for maven console 
     ide-wtp-393 # FIXME reduce
     model-emfxsd-2130 # FIXME reduce 
+    # FIXME need PDE for tycho
   ];
 
   # release

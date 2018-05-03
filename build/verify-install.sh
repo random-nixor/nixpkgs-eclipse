@@ -38,6 +38,8 @@ cd $root
 
 nix-env -f default.nix -i -A eclipse.dropin.ide-groovy-300
 
+#nix-env -f default.nix -i -A eclipse.dropin.ide-spoofax-241
+
 # dependency report
 # nix-store -q --tree store path or .drv file
 # nix-store -q --tree /nix/store/fkx936vzpk4b23cc74n4ir4gfydbhl23-eclipse-platform-473a/
