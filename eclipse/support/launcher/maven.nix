@@ -67,7 +67,7 @@ let
         metaList = makeMetaList javaList;
         metaText = (mavenToolchainList metaList);
         toolchains = runCommand "maven-toolchains" {} ''
-            baseDir="$out/${base}/${path}/conf"
+            baseDir="$out/${base}/${path}"
             toolFile=$baseDir/${file}
             mkdir -p $baseDir 
             echo "${metaText}" > $toolFile 

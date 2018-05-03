@@ -33,8 +33,8 @@
     #
 ]
 , javaArgs ? [
-    # inherit proxy environment vars
-    "-Djava.net.useSystemProxies=true"
+    # FIXME must detect if proxy is present
+    "-Djava.net.useSystemProxies=false" # inherit proxy environment vars
 ]
 }:
 

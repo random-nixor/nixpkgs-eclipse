@@ -1,9 +1,12 @@
 #
 # Antlr IDE providers
 #
-{ instance, fetchzip, fetchsite }:
+{ instance, dropin, fetchurl, fetchzip, fetchsite }:
+
+with dropin;
 
 let 
+    orbit-drops = http://download.eclipse.org/tools/orbit/downloads/drops ;
 in 
 rec {
 
@@ -18,19 +21,47 @@ rec {
     meta = {
       homepage = https://github.com/jknack/antlr4ide ;
     };
+    deps = [
+    ];
   };
 
-  # TODO needs ???
-  ide-antlr-certiv = instance.repoDir {
-    name = "ide-antlr-certiv";
+  # needs gef
+  ide-antlr-certiv-470 = instance.repoDir {
+    name = "ide-antlr-certiv-470";
     src = fetchsite {
       url = "http://www.certiv.net/updates" ;
-      sha256 = "1a3aab24szyjnw774mnypvkc3f38sj76zhclcw1y5rv8zlnri018";
-      # regexInclude = ""; 
+      sha256 = "1mqfmwqrghd4bgmxswr7vvj5i4glx2zc8nr0zc8qmv9x0dchlp3q";
+      regexInclude = "(.+)20171212(.+)[.]jar"; 
     };
     meta = {
       homepage = http://www.certiv.net ;
     };
+# org.apache.commons.io_2.2.0.v201405211200.jar
+# org.apache.commons.lang3_3.1.0.v201403281430.jar
+# org.eclipse.draw2d_3.10.100.201606061308.jar
+# org.eclipse.zest.core_1.5.300.201606061308.jar
+# org.eclipse.zest.layouts_1.1.300.201606061308.jar
+    deps = [
+        model-gef-502 # FIXME reduce
+        ide-antlr-deps-000
+    ];
+  };
+  
+  ide-antlr-deps-000 = instance.repoJars {
+    name = "ide-antlr-deps-000";
+    meta = {
+        description = "Certiv Antlr dependencies" ;
+    };
+    plugins = [
+        (fetchurl{
+          url = "${orbit-drops}/R20170303204511/repository/plugins/org.apache.commons.io_2.2.0.v201405211200.jar" ;
+          sha256 = "09h5vfij726b225si429bgg0mwjk9jp2damx89m658x8xjjwm6sq";
+        })
+        (fetchurl{
+          url = "${orbit-drops}/R20170303204511/repository/plugins/org.apache.commons.lang3_3.1.0.v201403281430.jar" ;
+          sha256 = "015ar9nfzqw3ywvf9f71cd4lvk6vvh9xzlf1nb7d9n3v8x7mx38w";
+        })
+    ];
   };
 
 }

@@ -24,6 +24,8 @@ in context
 // include ./instance/scala-main.nix {}
 // include ./instance/scala-total.nix {}
 
+// include ./instance/spoo.nix {}
+
 // include ./instance/total.nix {}
 
 // include ./instance/xmind.nix {}

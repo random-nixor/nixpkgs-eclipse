@@ -1,5 +1,5 @@
 #
-# Java IDE for work
+# Xtext IDE for work
 #
 { instance, eclipse }:
 
@@ -15,11 +15,10 @@ rec {
     name = "java-dsl-473a";
     super = product.java-main-473a;
     dropins = [
-    
         ide-xtext-2130
-        
         ide-pde-473a
-    
+        ide-antlr-jknack-035
+        ide-antlr-certiv-470
     ];
     execArgs = [
 #        "-clean"

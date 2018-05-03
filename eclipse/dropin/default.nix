@@ -35,6 +35,7 @@ in rec {}
 // include ./instance/ide-php.nix {}
 // include ./instance/ide-python.nix {}
 // include ./instance/ide-scala.nix {}
+// include ./instance/ide-spoofax.nix {}
 // include ./instance/ide-statet.nix {}
 // include ./instance/ide-xmind.nix {}
 #// include ./instance/ide-xtend.nix {}
@@ -67,4 +68,5 @@ in rec {}
 // include ./instance/tool-decompile.nix {}
 // include ./instance/tool-linux.nix {}
 // include ./instance/tool-oomph.nix {}
+// include ./instance/tool-space.nix {}
 // include ./instance/tool-unit.nix {}

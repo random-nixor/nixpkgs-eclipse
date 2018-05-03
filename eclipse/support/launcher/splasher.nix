@@ -11,12 +11,12 @@ with eclipse.option;
 
 let
 
-    javaName = optionEclipseJDK.name;
+#    javaName = optionEclipseJDK.name;
     
     splashFile = name: "splash-${name}.png";
 
     # produce splash image without specific name
-    splashSimple =  name: stdenvNoCC.mkDerivation {
+    splashSimple =  name: java: stdenvNoCC.mkDerivation {
         name = splashFile name;
         phases = [ "buildPhase" ];
         buildPhase = ''
@@ -26,7 +26,7 @@ let
     };
 
     # produce splash image with embedded name
-    splashRender = name: stdenvNoCC.mkDerivation {
+    splashRender = name: java: stdenvNoCC.mkDerivation {
         name = splashFile name;
         buildInputs = [ librsvg ];
         phases = [ "buildPhase" ];
@@ -35,7 +35,7 @@ let
             target="$TMPDIR/splash.png"
             cp ${splash-image} $source
             sed -r -i "s/%name%/${name}/g" $source 
-            sed -r -i "s/%java%/${javaName}/g" $source 
+            sed -r -i "s/%java%/${java.name}/g" $source 
             rsvg-convert \
                 --format png \
                 --keep-aspect-ratio \
@@ -48,9 +48,9 @@ in
 {
 
     # produce splash image
-    makeSplash = name: if librsvg == null 
-        then splashSimple name
-        else splashRender name
+    makeSplash = name: java: if librsvg == null 
+        then splashSimple name java
+        else splashRender name java
     ;
 
 

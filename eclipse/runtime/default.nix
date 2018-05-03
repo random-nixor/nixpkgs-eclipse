@@ -21,3 +21,4 @@ in rec {}
 // include ./instance/modeling.nix {}
 // include ./instance/php.nix {}
 // include ./instance/rcp.nix {}
+// include ./instance/spoo.nix {}

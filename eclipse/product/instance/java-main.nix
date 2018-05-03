@@ -14,6 +14,7 @@ rec {
     icon = "eclipse-java-2";
     name = "java-main-473a";
     super = product.java-473a;
+    java = option.oraclejdk8auto;
     dropins = [
     
         edit-json-boothen-110
@@ -27,6 +28,8 @@ rec {
 # FIXME https://github.com/groovy/groovy-eclipse/issues/574
 #        ide-groovy-292
         ide-groovy-300
+
+        ide-pde-473a
 
         tool-bnd-350
         tool-jd-100
