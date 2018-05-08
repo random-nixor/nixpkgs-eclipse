@@ -46,8 +46,8 @@ rec {
     name = "scalor-maven-142";
     plugins = [
         (fetchurl{
-          url = "${scalor-drops}/" ;
-          sha256 = "";
+          url = "${scalor-drops}/1.4.2.20180508161326/scalor-maven-plugin_2.12-1.4.2.20180508161326.jar" ;
+          sha256 = "18zwcbj8dgpk23acj7384a8yrvbcd6q1slalqa7fdnwy17fqw7m5";
         })
     ];
   };

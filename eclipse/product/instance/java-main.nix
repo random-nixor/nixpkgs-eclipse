@@ -33,6 +33,7 @@ rec {
 
         tool-bnd-350
         tool-jd-100
+        tool-moreunit-311
         
     ];
     execArgs = [

@@ -9,11 +9,10 @@ let
 
     lib = super.lib;
 
-    namespace = "nixpkgs-eclipse";
+    module = "nixpkgs-eclipse";
 
     homeDir = builtins.getEnv "HOME";
-    configDir = homeDir + "/.config/nixpkgs/overlays";
-    eclipseDir = configDir + "/${namespace}";
+    moduleDir = homeDir + "/.config/nixpkgs/overlays/${module}";
     
     hasNixFile = file: builtins.match ".*[.]nix" file != null;
     
@@ -21,14 +20,14 @@ let
     mergeFunc = one: two: one // two;
     mergeOverlays = overlays: lib.foldl mergeFunc mergeNull overlays;
     
-    eclipseFiles = builtins.attrNames (builtins.readDir eclipseDir);
-    eclipseNixes = builtins.filter hasNixFile eclipseFiles;
-    eclipseOverlay = file: import (eclipseDir + "/${file}") self super;
-    eclipseOverlays = builtins.map eclipseOverlay eclipseNixes;
-    eclipsePackages = mergeOverlays eclipseOverlays;
+    moduleFiles = builtins.attrNames (builtins.readDir moduleDir);
+    moduleNixes = builtins.filter hasNixFile moduleFiles;
+    moduleImport = file: import (moduleDir + "/${file}") self super;
+    moduleOverlays = builtins.map moduleImport moduleNixes;
+    modulePackages = mergeOverlays moduleOverlays;
 
 in 
 {
     eclipse = super.callPackage ./eclipse {};
 } 
-// eclipsePackages
+// modulePackages
