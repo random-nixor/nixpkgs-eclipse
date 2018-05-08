@@ -5,13 +5,12 @@
 
 let
   include = pkgs.lib.callPackageWith ( pkgs // context );
+  instance = include ./instance.nix {} ;
   context = {
-      inherit eclipse; 
-      dropin = eclipse.dropin;
-      fetchsite = eclipse.fetchsite;
-      instance = include ./instance.nix {} ;
+      inherit eclipse instance; 
+      inherit (eclipse) dropin fetchsite;
   };
-in rec {}
+in context
 
 // include ./instance/base-equinox.nix {}
 
@@ -27,6 +26,7 @@ in rec {}
 // include ./instance/ide-antlr.nix {}
 // include ./instance/ide-birt.nix {}
 // include ./instance/ide-cdt.nix {}
+// include ./instance/ide-closure.nix {}
 // include ./instance/ide-dltk.nix {}
 #// include ./instance/ide-haskell.nix {}
 // include ./instance/ide-groovy.nix {}
