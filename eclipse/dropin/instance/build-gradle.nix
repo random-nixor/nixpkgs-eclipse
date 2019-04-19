@@ -21,4 +21,13 @@ rec {
     };
   };
 
+  build-gradle-301 = instance.repoDir {
+    inherit meta;
+    name = "build-gradle-301";
+    src = fetchsite {
+      url = "${drop-site}/e410/releases/3.x/3.0.1.v20181217-1554" ;
+      sha256 = "18nxb56df9cg44xfdq8r7ny5jj0bynsidzj1yiqhlzc9cx3cvibd";
+    };
+  };
+
 }

@@ -29,4 +29,18 @@ rec {
     ];
   };
   
+  scala-main-411 = instance {
+    icon = "eclipse-scala-2";
+    name = "scala-main-411";
+    super = product.java-main-411;
+    dropins = [
+        ide-pde-411
+        ide-scala-471
+    ];
+    execArgs = [
+    ];
+    javaArgs = [
+    ];
+  };
+  
 }

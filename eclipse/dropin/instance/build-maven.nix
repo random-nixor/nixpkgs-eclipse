@@ -7,6 +7,7 @@ with dropin;
 
 let
     orbit-drops = http://download.eclipse.org/tools/orbit/downloads/drops ;
+    orbit-drops2 = http://download.eclipse.org/tools/orbit/downloads/drops2 ;
     connect-drops = http://repo1.maven.org/maven2/.m2e/connectors ; 
     meta = {
         homepage = http://www.eclipse.org/m2e ;
@@ -56,6 +57,18 @@ rec {
     build-maven-takariteam-010
   ];
 
+  build-maven-total-1110 = [
+    build-maven-1110
+    build-maven-log-1710
+    build-maven-tycho-090
+    build-maven-bldhlp-0150
+    build-maven-mvnarc-0172
+    build-maven-mvndep-004
+    build-maven-egit-0151
+    build-maven-subver-0130
+    build-maven-takariteam-010
+  ];
+
   build-maven-deps = [ 
     build-maven-log-172 # for maven console 
     ide-wtp-393 # FIXME reduce
@@ -84,10 +97,21 @@ rec {
     };
     deps = build-maven-deps; 
   };
+
+  #
+  build-maven-1110 = instance.repoDir {
+    inherit meta;
+    name = "build-maven-1110";
+    src = fetchsite {
+      url = "http://download.eclipse.org/technology/m2e/releases/1.11/1.11.0.20190220-2119" ;
+      sha256 = "075qlyisx531f1nbqq5cr9xyk73hn9yc2c6k4ph6prfkwqfb1pqz";
+    };
+    deps = build-maven-deps; 
+  };
   
   build-maven-log-172 = instance.repoJars {
     meta = {
-        description = "M2E Maven Console for Eclipse dependencies" ;
+        description = "M2E Maven Console for Eclipse / dependencies" ;
     };
     name = "build-maven-log-172";
     features = [
@@ -98,6 +122,10 @@ rec {
           sha256 = "1njsiqi22kgf39xg2z0c8bvk1zwg4jwdbshys0qhyiim3ywdrgck";
         })
         (fetchurl{
+          url = "${orbit-drops}/R20170303204511/repository/plugins/ch.qos.logback.slf4j_1.0.7.v201505121915.jar" ;
+          sha256 = "0zq4ll4sxbjh2blw99p5yzsp6apkyfc5kc1ysgfxiw682ghql19q";
+        })
+        (fetchurl{
           url = "${orbit-drops}/R20170303204511/repository/plugins/ch.qos.logback.core_1.0.7.v20121108-1250.jar" ;
           sha256 = "0az6pyw62glbz149and7b6imzy0sw6gcp1c24dqz006xmf59if0j";
         })
@@ -105,9 +133,32 @@ rec {
           url = "${orbit-drops}/R20170303204511/repository/plugins/ch.qos.logback.classic_1.0.7.v20121108-1250.jar" ;
           sha256 = "0vgim9q6qb8hx82dk3aa0ck7zgra0dhfwdxslilpzy6lig1aywxr";
         })
+    ];
+  };
+
+  build-maven-log-1710 = instance.repoJars {
+    meta = {
+        description = "M2E Maven Console for Eclipse / dependencies" ;
+    };
+    name = "build-maven-log-1710";
+    features = [
+    ];
+    plugins = [
         (fetchurl{
-          url = "${orbit-drops}/R20170303204511/repository/plugins/ch.qos.logback.slf4j_1.0.7.v201505121915.jar" ;
-          sha256 = "0zq4ll4sxbjh2blw99p5yzsp6apkyfc5kc1ysgfxiw682ghql19q";
+          url = "${orbit-drops2}/I20190320195818/repository/plugins/org.slf4j.api_1.7.10.v20170428-1633.jar" ;
+          sha256 = "0jczd3vir9vipw7gs20y8x29wrzvcadlsrnvzkl7xz0fk3cknz5c";
+        })
+        (fetchurl{
+          url = "${orbit-drops2}/I20190320195818/repository/plugins/ch.qos.logback.slf4j_1.1.2.v20160301-0943.jar" ;
+          sha256 = "0chk35dr88ainw5lidpp7wkxkdlzmg3yzd23nx77702mw9bfy8wl";
+        })
+        (fetchurl{
+          url = "${orbit-drops2}/I20190320195818/repository/plugins/ch.qos.logback.core_1.1.2.v20160208-0839.jar" ;
+          sha256 = "115zar6mspnprh5ywhdzav4xpxyji51ip03gcvp4ci11vlcac29f";
+        })
+        (fetchurl{
+          url = "${orbit-drops2}/I20190320195818/repository/plugins/ch.qos.logback.classic_1.1.2.v20171220-1825.jar" ;
+          sha256 = "098j9rlhb667yr3hbqha6k6g15rnbzcp2v2h4rgh8kyg3ifpz62p";
         })
     ];
   };
@@ -117,6 +168,18 @@ rec {
     src = fetchsite {
       url = "${connect-drops}/m2eclipse-egit/0.15.0/N/0.15.0.201610271525" ;
       sha256 = "18d5afmm94jnrypgph23cxwqly9z12jm3kx4xs4mpxyvxzmacwph";
+    };
+    meta = {
+        homepage = https://github.com/tesla/m2eclipse-egit ;
+        description = "M2E SCM Handler for EGit" ;
+    };
+  };
+  
+  build-maven-egit-0151 = instance.repoDir {
+    name = "build-maven-egit-0151";
+    src = fetchsite {
+      url = "${connect-drops}/m2eclipse-egit/0.15.1/N/0.15.1.201806191431" ;
+      sha256 = "1n1wsa6ik8cjvy4d4pr2gg795wbir61wrv05i26mz8nq9dgycrcw";
     };
     meta = {
         homepage = https://github.com/tesla/m2eclipse-egit ;

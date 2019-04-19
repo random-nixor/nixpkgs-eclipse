@@ -22,4 +22,14 @@ rec {
     };
   };
 
+  base-equinox-411 = instance.repoDir {
+    inherit meta;
+    name = "base-equinox-411";
+    src = fetchzip {
+      stripRoot = false;
+      url = "${drop-site}/R-4.11-201903070500/equinox-SDK-4.11.zip" ;
+      sha512 = "0pgp0lrmsf2h6c6rxsdm89rr97q7abcl0cc9fxqv9bp1bjiaz9jybkq8i9kgfg61rry2rsh8dg6s9gkycs3npdngj99z0i3845dhx0y";
+    };
+  };
+
 }

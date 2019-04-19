@@ -20,4 +20,13 @@ rec {
     };
   };
 
+  ide-pydev-720 = instance.repoDir {
+    inherit meta;
+    name = "ide-pydev-720";
+    src = fetchsite {
+      url = "https://dl.bintray.com/fabioz/pydev/7.2.0" ;
+      sha256 = "12wssrasx61kg9y838i95cb1151b8q98lvb1430p88phm79h1gn3";
+    };
+  };
+
 }

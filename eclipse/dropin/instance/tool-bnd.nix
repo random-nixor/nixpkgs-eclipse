@@ -20,4 +20,13 @@ rec {
     };
   };
 
+  tool-bnd-420 = instance.repoDir {
+    inherit meta;
+    name = "tool-bnd-420";
+    src = fetchsite {
+      url = "https://dl.bintray.com/bndtools/bndtools/4.2.0" ;
+      sha256 = "1r3dkp6ky9a206in9gk3ap9x3iw1hapd6qlv33nxxb52ffrgfvdi";
+    };
+  };
+
 }
