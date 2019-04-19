@@ -23,4 +23,17 @@ rec {
     ];
   };
   
+  base-411 = instance {
+    icon = "eclipse-1";
+    name = "base-411";
+    runtime = runtime.base-411;
+    dropins = [
+    ];
+    execArgs = [
+    ];
+    javaArgs = [
+#        "-Djava.net.useSystemProxies=true"
+    ];
+  };
+  
 }

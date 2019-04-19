@@ -28,8 +28,18 @@ rec {
     name = "ide-groovy-300";
     src = fetchsite {
             url = "http://dist.springsource.org/snapshot/GRECLIPSE/e4.7" ;
-            sha256 = "1m1fs7kjh0j7zc3vwfa2qnjja0qkv2nxq0jjx1b6cppm1zl3s50k";
-            regexInclude = "(.+)201804302107(.*)[.]jar" ;
+            sha256 = "037vd08j2gzg6awcpqp0hbwj8k7dl1zklhjnvkyah219p3f0hiq3";
+            regexInclude = "(.+)201805062220(.*)[.]jar" ;
+        };
+    };
+
+    ide-groovy-330 = instance.repoDir {
+    inherit meta;
+    name = "ide-groovy-330";
+    src = fetchsite {
+            url = "https://dist.springsource.org/release/GRECLIPSE/e4.11" ;
+            sha256 = "18nvgjziqz9ksiifd1f9qpss7gfm2gkc1zx7yd89aa85xzgk8lrl";
+            regexInclude = "(.+)201903290242(.*)[.]jar" ;
         };
     };
 

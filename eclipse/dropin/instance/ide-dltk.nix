@@ -6,9 +6,10 @@
 with dropin;
 
 let 
-    drop-site = http://download.eclipse.org/technology/dltk/downloads/drops ;
+    drop-site = http://ftp.osuosl.org/pub/eclipse/technology/dltk/downloads/drops ;
     drop-581 = "${drop-site}/R5.8/R-5.8.1-201708260401" ;
-    drop-582 = "${drop-site}/R5.8/R-5.8.2.201709190955" ; # FIXME broken
+    drop-582 = "${drop-site}/R5.8/R-5.8.2.201709190955" ;
+    drop-590 = "${drop-site}/R5.9/R-5.9-201806080529" ;
     meta = {
         homepage = https://projects.eclipse.org/projects/technology.dltk ;
         description = "Eclipse Dynamic Languages Toolkit: Ruby Tcl Python JavaScript Shell";
@@ -81,5 +82,18 @@ rec {
 #        };
 #        deps = ide-dltk-deps-5;
 #    };
+
+    ### 590
+    
+    ide-dltk-590 = instance.repoDir {
+        inherit meta;
+        name = "ide-dltk-590";
+        src = fetchzip {
+            stripRoot = false;
+            url = "${drop-590}/dltk-R-5.9-201806080529.zip" ;
+            sha256 = "0yzmav7qg63zmgqcn4r7zlvpni6jyinwnkbfbhagw6advrraq365";
+        };
+        deps = ide-dltk-deps-5;
+    };
 
 }
