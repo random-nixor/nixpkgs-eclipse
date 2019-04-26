@@ -8,4 +8,4 @@ set -e
 
 nix-env -q | grep eclipse | xargs -I % nix-env -e %
 
-#nix-collect-garbage -d
+nix-collect-garbage -d

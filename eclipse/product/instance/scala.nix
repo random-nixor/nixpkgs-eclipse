@@ -28,4 +28,22 @@ rec {
     ];
   };
   
+  scala-411 = instance {
+    icon = "eclipse-scala-1";
+    name = "scala-411";
+    super = product.java-411;
+    dropins = [
+        ide-pde-411
+        ide-scala-471
+    ];
+    execArgs = [
+#        "-clean"
+    ];
+    javaArgs = [
+#        "-Xms2g"
+#        "-Xmx2g"
+#        "-Dosgi.framework.extensions=org.eclipse.equinox.weaving.hook"
+    ];
+  };
+  
 }

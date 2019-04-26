@@ -19,6 +19,7 @@ in context
 // include ./instance/java.nix {}
 // include ./instance/java-dsl.nix {}
 // include ./instance/java-main.nix {}
+// include ./instance/java-total.nix {}
 
 // include ./instance/scala.nix {}
 // include ./instance/scala-main.nix {}

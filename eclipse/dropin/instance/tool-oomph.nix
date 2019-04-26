@@ -23,4 +23,16 @@ rec {
     ];
   };
 
+  tool-oomph-190 = instance.repoDir {
+    inherit meta;
+    name = "tool-oomph-190";
+    src = fetchsite {
+      url = "http://download.eclipse.org/oomph/drops/release/1.9.0" ;
+      sha256 = "086ss0xhd126xxwrs1i6siv16f2mdgjpq2x10lmhqswv84fchk1g";
+    };
+    deps = [
+        # FIXME
+    ];
+  };
+
 }

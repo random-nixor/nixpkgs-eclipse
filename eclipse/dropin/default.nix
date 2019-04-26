@@ -12,6 +12,8 @@ let
   };
 in context
 
+// include ./instance/arkon.nix {}
+
 // include ./instance/base-equinox.nix {}
 
 // include ./instance/build-maven.nix {}
@@ -26,6 +28,7 @@ in context
 // include ./instance/ide-antlr.nix {}
 // include ./instance/ide-birt.nix {}
 // include ./instance/ide-cdt.nix {}
+// include ./instance/ide-mcu.nix {}
 // include ./instance/ide-closure.nix {}
 // include ./instance/ide-dltk.nix {}
 #// include ./instance/ide-haskell.nix {}

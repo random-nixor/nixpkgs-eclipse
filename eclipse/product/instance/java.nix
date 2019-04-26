@@ -19,7 +19,6 @@ rec {
         base-equinox-473a
         
         build-gradle-221
-#        build-maven-190
         build-maven-total-190
         
         ide-java-473a
@@ -35,7 +34,37 @@ rec {
         "-Xms1g"
         "-Xmx1g"
 #        "-Dosgi.checkConfiguration=true"
-        "-javaagent:${pkgs.lombok}/share/java/lombok.jar"
+#        "-javaagent:${pkgs.lombok}/share/java/lombok.jar"
+    ];
+  };
+  
+  java-411 = instance {
+    icon = "eclipse-java-1";
+    name = "java-411";
+    runtime = runtime.java-411;
+    dropins = [
+    
+#        base-equinox-411
+
+#        scm-git-53
+#        scm-svn-405
+
+#        ide-java-411
+        
+#        build-gradle-301
+#        build-maven-total-1110
+#        
+#        
+        
+    ];
+    execArgs = [
+#        "-clean"
+    ];
+    javaArgs = [
+        "-Xms1g"
+        "-Xmx1g"
+#        "-Dosgi.checkConfiguration=true"
+#        "-javaagent:${pkgs.lombok}/share/java/lombok.jar"
     ];
   };
   
